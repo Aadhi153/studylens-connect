@@ -1,26 +1,90 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Landing page only — gradient wash background */
+  --landing-gradient: linear-gradient(
+    180deg,
+    #0b1e3d 0%,
+    #16304f 25%,
+    #234465 50%,
+    #385d80 75%,
+    #4f7699 100%
+  );
+  --landing-cta-bg: #1e3a5f;
+  --landing-text-on-gradient: #ffffff;
+  --landing-text-secondary-on-gradient: rgba(255, 255, 255, 0.8);
+
+  /* App/chat pages — neutral dark system */
+  --app-bg: #1b1e24;
+  --app-card-bg: #24272e;
+  --app-accent: #5b6b85;
+  --app-bubble-self: #5b6b85;
+  --app-bubble-other: #2e323a;
+  --app-text-primary: #f1f1f0;
+  --app-text-secondary: #8b8d95;
+
+  /* Semantic */
+  --online: #22c55e;
+
+  /* Group avatar tints */
+  --tint-1: #1e3a5f;
+  --tint-2: #345c82;
+  --tint-3: #4f7699;
+  --tint-4: #7fa3bf;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-landing-cta: var(--landing-cta-bg);
+  --color-landing-on-gradient: var(--landing-text-on-gradient);
+  --color-landing-on-gradient-secondary: var(--landing-text-secondary-on-gradient);
+
+  --color-app-bg: var(--app-bg);
+  --color-app-card: var(--app-card-bg);
+  --color-app-accent: var(--app-accent);
+  --color-app-bubble-self: var(--app-bubble-self);
+  --color-app-bubble-other: var(--app-bubble-other);
+  --color-app-text-primary: var(--app-text-primary);
+  --color-app-text-secondary: var(--app-text-secondary);
+
+  --color-online: var(--online);
+
+  --color-tint-1: var(--tint-1);
+  --color-tint-2: var(--tint-2);
+  --color-tint-3: var(--tint-3);
+  --color-tint-4: var(--tint-4);
+
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+.landing-page-wrapper {
+  background: var(--landing-gradient);
+  min-height: 100%;
+}
+
+html,
+body {
+  height: 100%;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--app-bg);
+  color: var(--app-text-primary);
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+}
+
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(11, 30, 61, 0.85);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+
+.section-divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.12);
+  width: 100%;
+  margin: 0;
 }
