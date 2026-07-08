@@ -2,7 +2,7 @@ const tags = ["Next.js", "React Native", "Supabase Realtime", "TypeScript"];
 
 export function TechStrip() {
   return (
-    <section className="mx-auto w-full max-w-6xl px-6 py-12 text-center">
+    <section className="fade-in-section mx-auto w-full max-w-6xl px-6 py-12 text-center">
       <p className="mb-4 text-sm text-landing-on-gradient-secondary">
         Built with Next.js, React Native, Supabase Realtime, and PostgreSQL.
       </p>

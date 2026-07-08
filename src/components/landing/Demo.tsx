@@ -2,7 +2,10 @@ import Link from "next/link";
 
 export function Demo() {
   return (
-    <section id="demo" className="mx-auto w-full max-w-6xl scroll-mt-24 px-6 py-20 text-center">
+    <section
+      id="demo"
+      className="fade-in-section mx-auto w-full max-w-6xl scroll-mt-24 px-6 py-20 text-center"
+    >
       <h2 className="mb-4 text-3xl font-semibold text-landing-on-gradient">
         See it in action
       </h2>
@@ -12,7 +15,7 @@ export function Demo() {
       </p>
       <Link
         href="/demo"
-        className="inline-block rounded-lg bg-landing-cta px-6 py-3 text-sm font-medium text-white transition hover:brightness-110"
+        className="btn-primary inline-block rounded-lg bg-landing-cta px-6 py-3 text-sm font-medium text-white"
       >
         Try Demo Now
       </Link>

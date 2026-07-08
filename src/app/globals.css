@@ -82,9 +82,262 @@ body {
   backdrop-filter: blur(8px);
 }
 
+/* Mobile hamburger toggle */
+.hamburger-btn {
+  color: var(--landing-text-on-gradient);
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.hamburger-btn:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.hamburger {
+  position: relative;
+  display: block;
+  width: 18px;
+  height: 13px;
+}
+
+.hamburger-bar {
+  position: absolute;
+  left: 0;
+  width: 18px;
+  height: 1.5px;
+  border-radius: 1px;
+  background: currentColor;
+  transition:
+    transform 0.25s ease,
+    opacity 0.2s ease,
+    top 0.25s ease;
+}
+
+.hamburger-bar:nth-child(1) {
+  top: 0;
+}
+
+.hamburger-bar:nth-child(2) {
+  top: 6px;
+}
+
+.hamburger-bar:nth-child(3) {
+  top: 12px;
+}
+
+.hamburger.is-open .hamburger-bar:nth-child(1) {
+  top: 6px;
+  transform: rotate(45deg);
+}
+
+.hamburger.is-open .hamburger-bar:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.is-open .hamburger-bar:nth-child(3) {
+  top: 6px;
+  transform: rotate(-45deg);
+}
+
+/* Mobile menu panel */
+.mobile-menu {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition:
+    grid-template-rows 0.25s ease,
+    opacity 0.2s ease;
+}
+
+.mobile-menu.is-open {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+
+.mobile-menu-inner {
+  overflow: hidden;
+  min-height: 0;
+}
+
 .section-divider {
   height: 1px;
   background: rgba(255, 255, 255, 0.12);
   width: 100%;
   margin: 0;
+}
+
+/* Buttons */
+.btn-primary,
+.btn-secondary {
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(33, 113, 181, 0.35);
+  background-color: #2171b5;
+}
+
+.btn-secondary:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.4);
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Nav links */
+.nav-link {
+  position: relative;
+  display: inline-block;
+  transition: color 0.2s ease;
+}
+
+.nav-link:hover {
+  color: #ffffff;
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: #6baed6;
+  transition: width 0.25s ease;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* Cards */
+.step-card,
+.feature-card {
+  transition:
+    transform 0.25s ease,
+    background-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.step-card:hover,
+.feature-card:hover {
+  transform: translateY(-4px);
+  background-color: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
+}
+
+/* Scroll-triggered entrance animations */
+.fade-in-section {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s ease;
+}
+
+.fade-in-section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Individual content items within a fade-in-section stagger in after the section starts
+   revealing. This class lives on a plain wrapper div around each card (not on the card
+   itself), which keeps it fully independent of .step-card / .feature-card's own hover
+   `transition` — sharing one element between the two caused the entrance animation to
+   keep "owning" `transform` and fight with the hover lift. */
+.fade-in-item {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s ease;
+}
+
+.fade-in-section.visible .fade-in-item {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.fade-in-item:nth-child(1) {
+  transition-delay: 0.05s;
+}
+
+.fade-in-item:nth-child(2) {
+  transition-delay: 0.12s;
+}
+
+.fade-in-item:nth-child(3) {
+  transition-delay: 0.19s;
+}
+
+.fade-in-item:nth-child(4) {
+  transition-delay: 0.26s;
+}
+
+/* Chat mockup micro-animations */
+@keyframes typingPulse {
+  0%,
+  60%,
+  100% {
+    opacity: 0.3;
+  }
+  30% {
+    opacity: 1;
+  }
+}
+
+.typing-dot {
+  animation: typingPulse 1.2s infinite;
+}
+
+.typing-dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.typing-dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes chatMessageIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.chat-msg {
+  opacity: 0;
+  animation: chatMessageIn 0.4s ease forwards;
+}
+
+.chat-msg:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.chat-msg:nth-child(2) {
+  animation-delay: 0.3s;
+}
+
+.chat-msg:nth-child(3) {
+  animation-delay: 0.6s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

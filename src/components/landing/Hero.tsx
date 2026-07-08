@@ -19,13 +19,13 @@ export function Hero() {
         <div className="flex flex-wrap gap-4">
           <Link
             href="#demo"
-            className="rounded-lg bg-landing-cta px-5 py-3 text-sm font-medium text-white transition hover:brightness-110"
+            className="btn-primary rounded-lg bg-landing-cta px-5 py-3 text-sm font-medium text-white"
           >
             Try Demo
           </Link>
           <Link
             href="/signup"
-            className="rounded-lg border border-white/30 px-5 py-3 text-sm font-medium text-landing-on-gradient transition hover:bg-white/10"
+            className="btn-secondary rounded-lg border border-white/30 px-5 py-3 text-sm font-medium text-landing-on-gradient"
           >
             Sign Up Free
           </Link>

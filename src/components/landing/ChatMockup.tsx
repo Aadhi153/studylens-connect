@@ -16,23 +16,23 @@ export function ChatMockup() {
       </div>
 
       <div className="flex flex-col gap-2">
-        <div className="max-w-[75%] self-start rounded-2xl rounded-bl-sm bg-app-bubble-other px-3 py-2 text-sm text-app-text-primary">
+        <div className="chat-msg max-w-[75%] self-start rounded-2xl rounded-bl-sm bg-app-bubble-other px-3 py-2 text-sm text-app-text-primary">
           Did anyone finish the reaction mechanism problem set?
         </div>
-        <div className="max-w-[75%] self-end rounded-2xl rounded-br-sm bg-app-bubble-self px-3 py-2 text-sm text-white">
+        <div className="chat-msg max-w-[75%] self-end rounded-2xl rounded-br-sm bg-app-bubble-self px-3 py-2 text-sm text-white">
           Yeah, I pinned my notes above ⬆️
           <div className="mt-1 text-right text-[10px] text-white/70">✓✓ Seen</div>
         </div>
-        <div className="max-w-[75%] self-start rounded-2xl rounded-bl-sm bg-app-bubble-other px-3 py-2 text-sm text-app-text-primary">
+        <div className="chat-msg max-w-[75%] self-start rounded-2xl rounded-bl-sm bg-app-bubble-other px-3 py-2 text-sm text-app-text-primary">
           Perfect, looking now
         </div>
       </div>
 
       <div className="mt-3 flex items-center gap-1 text-xs italic text-app-text-secondary">
         <span className="flex gap-0.5">
-          <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-app-text-secondary [animation-delay:-0.3s]" />
-          <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-app-text-secondary [animation-delay:-0.15s]" />
-          <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-app-text-secondary" />
+          <span className="typing-dot h-1.5 w-1.5 rounded-full bg-app-text-secondary" />
+          <span className="typing-dot h-1.5 w-1.5 rounded-full bg-app-text-secondary" />
+          <span className="typing-dot h-1.5 w-1.5 rounded-full bg-app-text-secondary" />
         </span>
         Aadhi is typing...
       </div>

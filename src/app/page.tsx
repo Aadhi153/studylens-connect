@@ -5,10 +5,12 @@ import { Features } from "@/components/landing/Features";
 import { Demo } from "@/components/landing/Demo";
 import { TechStrip } from "@/components/landing/TechStrip";
 import { Footer } from "@/components/landing/Footer";
+import { ScrollAnimations } from "@/components/landing/ScrollAnimations";
 
 export default function Home() {
   return (
     <main className="landing-page-wrapper">
+      <ScrollAnimations />
       <Nav />
       <Hero />
       <div className="section-divider" />

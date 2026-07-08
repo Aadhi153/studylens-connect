@@ -19,18 +19,23 @@ const steps = [
 
 export function HowItWorks() {
   return (
-    <section id="how-it-works" className="mx-auto w-full max-w-6xl scroll-mt-24 px-6 py-20">
+    <section
+      id="how-it-works"
+      className="fade-in-section mx-auto w-full max-w-6xl scroll-mt-24 px-6 py-20"
+    >
       <h2 className="mb-12 text-center text-3xl font-semibold text-landing-on-gradient">
         How It Works
       </h2>
       <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
         {steps.map((step, i) => (
-          <div key={step.title} className="flex flex-col items-start gap-3">
-            <span className="flex h-9 w-9 items-center justify-center rounded-full border border-white/30 text-sm font-medium text-landing-on-gradient">
-              {i + 1}
-            </span>
-            <h3 className="text-lg font-medium text-landing-on-gradient">{step.title}</h3>
-            <p className="text-sm text-landing-on-gradient-secondary">{step.description}</p>
+          <div key={step.title} className="fade-in-item">
+            <div className="step-card flex flex-col items-start gap-3 rounded-2xl p-4">
+              <span className="flex h-9 w-9 items-center justify-center rounded-full border border-white/30 text-sm font-medium text-landing-on-gradient">
+                {i + 1}
+              </span>
+              <h3 className="text-lg font-medium text-landing-on-gradient">{step.title}</h3>
+              <p className="text-sm text-landing-on-gradient-secondary">{step.description}</p>
+            </div>
           </div>
         ))}
       </div>
