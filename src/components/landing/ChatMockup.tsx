@@ -1,6 +1,6 @@
 export function ChatMockup() {
   return (
-    <div className="w-full max-w-sm rounded-2xl border border-white/10 bg-app-bg/90 p-4 shadow-2xl backdrop-blur">
+    <div className="w-full max-w-sm rounded-2xl border border-white/10 bg-white/10 p-4 shadow-2xl backdrop-blur">
       <div className="mb-3 flex items-center gap-2 border-b border-white/10 pb-3">
         <div className="flex -space-x-2">
           <div className="h-7 w-7 rounded-full border-2 border-app-bg bg-tint-3" />

@@ -29,7 +29,7 @@ export function HowItWorks() {
       <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
         {steps.map((step, i) => (
           <div key={step.title} className="fade-in-item">
-            <div className="step-card flex flex-col items-start gap-3 rounded-2xl p-4">
+            <div className="step-card flex flex-col items-start gap-3 rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur">
               <span className="flex h-9 w-9 items-center justify-center rounded-full border border-white/30 text-sm font-medium text-landing-on-gradient">
                 {i + 1}
               </span>
