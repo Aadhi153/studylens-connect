@@ -1,14 +1,20 @@
 import Link from "next/link";
-import { LogoutButton } from "@/components/groups/LogoutButton";
+import { createClient } from "@/lib/supabase/server";
+import { UserMenu } from "@/components/groups/UserMenu";
 
-export default function GroupsLayout({ children }: { children: React.ReactNode }) {
+export default async function GroupsLayout({ children }: { children: React.ReactNode }) {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
   return (
     <div className="min-h-screen bg-app-bg">
-      <header className="flex items-center justify-between border-b border-white/10 px-6 py-4">
+      <header className="topbar">
         <Link href="/groups" className="text-sm font-semibold text-app-text-primary">
           StudyLens Connect
         </Link>
-        <LogoutButton />
+        <UserMenu email={user?.email ?? ""} />
       </header>
       {children}
     </div>
