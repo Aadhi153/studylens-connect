@@ -1,10 +1,12 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
-import { MessageBubble, type ChatMessage } from "@/components/chat/MessageBubble";
+import type { ChatMessage } from "@/components/chat/MessageBubble";
+import { ChatHeader } from "@/components/chat/ChatHeader";
+import { MessageThread } from "@/components/chat/MessageThread";
 import { TypingIndicator } from "@/components/chat/TypingIndicator";
-import { PresenceAvatar } from "@/components/chat/PresenceAvatar";
 import { MessageInput } from "@/components/chat/MessageInput";
 import { PinnedNoteBanner } from "@/components/chat/PinnedNoteBanner";
 
@@ -15,7 +17,6 @@ const TYPING_TIMEOUT_MS = 2500;
 export function ChatRoom({
   groupId,
   groupName,
-  inviteCode,
   currentUser,
   initialMessages,
   memberProfiles,
@@ -23,18 +24,20 @@ export function ChatRoom({
 }: {
   groupId: string;
   groupName: string;
-  inviteCode: string;
   currentUser: MemberProfile;
   initialMessages: ChatMessage[];
   memberProfiles: MemberProfile[];
   pinnedNoteId: string | null;
 }) {
   const supabase = useMemo(() => createClient(), []);
+  const router = useRouter();
   const [messages, setMessages] = useState<ChatMessage[]>(initialMessages);
   const [onlineIds, setOnlineIds] = useState<Set<string>>(new Set());
   const [typingIds, setTypingIds] = useState<Set<string>>(new Set());
   const [signedUrls, setSignedUrls] = useState<Record<string, string>>({});
   const [uploading, setUploading] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const bottomRef = useRef<HTMLDivElement>(null);
   const markedReadRef = useRef<Set<string>>(new Set());
@@ -174,8 +177,9 @@ export function ChatRoom({
       )
       .then(({ error }) => {
         if (error) toMark.forEach((m) => markedReadRef.current.delete(m.id));
+        else router.refresh();
       });
-  }, [messages, currentUser.id, supabase]);
+  }, [messages, currentUser.id, supabase, router]);
 
   // Resolve signed URLs for private image attachments
   useEffect(() => {
@@ -273,31 +277,29 @@ export function ChatRoom({
   const typingNames = Array.from(typingIds).map((id) => profileById.get(id) ?? "Someone");
 
   return (
-    <div className="flex h-[calc(100vh-65px)] flex-col">
-      <div className="flex items-center gap-3 border-b border-white/10 bg-app-card px-4 py-3">
-        <div>
-          <p className="text-sm font-medium text-app-text-primary">{groupName}</p>
-          <p className="text-xs text-app-text-secondary">Invite code: {inviteCode}</p>
-        </div>
-        <div className="ml-auto flex -space-x-2">
-          {memberProfiles.map((p, i) => (
-            <PresenceAvatar key={p.id} name={p.displayName} index={i} online={onlineIds.has(p.id)} />
-          ))}
-        </div>
-      </div>
+    <div className="flex h-full flex-col">
+      <ChatHeader
+        groupId={groupId}
+        groupName={groupName}
+        currentUserId={currentUser.id}
+        memberProfiles={memberProfiles}
+        onlineIds={onlineIds}
+        searchOpen={searchOpen}
+        searchQuery={searchQuery}
+        onToggleSearch={() => setSearchOpen((v) => !v)}
+        onSearchQueryChange={setSearchQuery}
+      />
 
       {pinnedNoteId && <PinnedNoteBanner noteId={pinnedNoteId} />}
 
-      <div className="flex-1 space-y-3 overflow-y-auto px-4 py-4">
-        {messages.map((m) => (
-          <MessageBubble
-            key={m.id}
-            message={m.imageUrl ? { ...m, imageUrl: signedUrls[m.imageUrl] ?? null } : m}
-            isSelf={m.senderId === currentUser.id}
-          />
-        ))}
-        <div ref={bottomRef} />
-      </div>
+      <MessageThread
+        messages={messages.map((m) =>
+          m.imageUrl ? { ...m, imageUrl: signedUrls[m.imageUrl] ?? null } : m
+        )}
+        currentUserId={currentUser.id}
+        searchQuery={searchOpen ? searchQuery : undefined}
+        bottomRef={bottomRef}
+      />
 
       <TypingIndicator names={typingNames} />
       <MessageInput onSend={handleSend} onTyping={handleTyping} uploading={uploading} />

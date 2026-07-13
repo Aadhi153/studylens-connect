@@ -6,7 +6,13 @@ import Link from "next/link";
 import { Settings, LogOut } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 
-export function UserMenu({ email }: { email: string }) {
+export function UserMenu({
+  email,
+  placement = "bottom",
+}: {
+  email: string;
+  placement?: "top" | "bottom";
+}) {
   const [open, setOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
@@ -44,7 +50,7 @@ export function UserMenu({ email }: { email: string }) {
       </button>
 
       {open && (
-        <div role="menu" className="user-dropdown">
+        <div role="menu" className={`user-dropdown ${placement === "top" ? "placement-top" : ""}`}>
           <div className="dropdown-email">{email}</div>
           <Link
             href="/settings"

@@ -1,14 +1,20 @@
 import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { ChatRoom } from "@/components/chat/ChatRoom";
+import { MembersTab } from "@/components/groups/tabs/MembersTab";
+import { SharedNotesTab } from "@/components/groups/tabs/SharedNotesTab";
+import { GroupSettingsTab } from "@/components/groups/tabs/GroupSettingsTab";
 import type { ChatMessage } from "@/components/chat/MessageBubble";
 
 export default async function GroupChatPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ id: string }>;
+  searchParams: Promise<{ tab?: string }>;
 }) {
   const { id: groupId } = await params;
+  const { tab } = await searchParams;
   const supabase = await createClient();
 
   const {
@@ -45,6 +51,25 @@ export default async function GroupChatPage({
   const memberProfiles = memberIds
     .filter((id) => id !== user.id)
     .map((id) => ({ id, displayName: displayNameFor(id) }));
+
+  if (tab === "members") {
+    return <MembersTab groupName={group.name} members={memberProfiles} currentUserId={user.id} />;
+  }
+
+  if (tab === "notes") {
+    return <SharedNotesTab groupName={group.name} />;
+  }
+
+  if (tab === "settings") {
+    return (
+      <GroupSettingsTab
+        groupId={group.id}
+        groupName={group.name}
+        inviteCode={group.invite_code}
+        currentUserId={user.id}
+      />
+    );
+  }
 
   const { data: messageRows } = await supabase
     .from("messages")
@@ -89,7 +114,6 @@ export default async function GroupChatPage({
     <ChatRoom
       groupId={group.id}
       groupName={group.name}
-      inviteCode={group.invite_code}
       currentUser={{ id: user.id, displayName: displayNameFor(user.id) }}
       initialMessages={initialMessages}
       memberProfiles={memberProfiles}

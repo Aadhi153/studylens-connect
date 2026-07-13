@@ -1,4 +1,4 @@
-const tints = ["bg-tint-1", "bg-tint-2", "bg-tint-3", "bg-tint-4"];
+const tints = ["bg-tint-1", "bg-tint-2", "bg-tint-3", "bg-tint-4", "bg-tint-5", "bg-tint-6"];
 
 export function PresenceAvatar({
   name,
