@@ -1,5 +1,6 @@
 "use client";
 
+import { motion } from "framer-motion";
 import { Moon, Sun, Monitor, ChevronDown } from "lucide-react";
 import type { Theme } from "@/components/settings/SettingsSections";
 
@@ -30,36 +31,39 @@ export function AppearanceSection({
       <div className="mb-6">
         <label className="settings-label">Theme</label>
         <div role="radiogroup" aria-label="Theme" className="settings-segmented">
-          <button
+          <motion.button
             type="button"
             role="radio"
             aria-checked={theme === "dark"}
             onClick={() => onThemeChange("dark")}
+            whileTap={{ scale: 0.98 }}
             className={`settings-segmented-option ${theme === "dark" ? "is-active" : ""}`}
           >
             <Moon size={14} />
             Dark
-          </button>
-          <button
+          </motion.button>
+          <motion.button
             type="button"
             role="radio"
             aria-checked={theme === "light"}
             onClick={() => onThemeChange("light")}
+            whileTap={{ scale: 0.98 }}
             className={`settings-segmented-option ${theme === "light" ? "is-active" : ""}`}
           >
             <Sun size={14} />
             Light
-          </button>
-          <button
+          </motion.button>
+          <motion.button
             type="button"
             role="radio"
             aria-checked={theme === "system"}
             onClick={() => onThemeChange("system")}
+            whileTap={{ scale: 0.98 }}
             className={`settings-segmented-option ${theme === "system" ? "is-active" : ""}`}
           >
             <Monitor size={14} />
             System
-          </button>
+          </motion.button>
         </div>
       </div>
 

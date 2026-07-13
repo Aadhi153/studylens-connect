@@ -26,6 +26,15 @@
   --app-text-primary: #ffffff;
   --app-text-secondary: rgba(255, 255, 255, 0.55);
 
+  /* Settings page — deliberately neutral, distinct from the app/dashboard's navy theme */
+  --settings-bg: #141416;
+  --settings-card-bg: #1c1c1e;
+  --settings-border: rgba(255, 255, 255, 0.08);
+  --settings-accent: #3b82f6;
+  --settings-accent-hover: #2563eb;
+  --settings-text-primary: #ffffff;
+  --settings-text-secondary: rgba(255, 255, 255, 0.55);
+
   /* Semantic */
   --online: #22c55e;
   --danger: #ef4444;
@@ -54,6 +63,14 @@
   --color-app-bubble-other: var(--app-bubble-other);
   --color-app-text-primary: var(--app-text-primary);
   --color-app-text-secondary: var(--app-text-secondary);
+
+  --color-settings-bg: var(--settings-bg);
+  --color-settings-card: var(--settings-card-bg);
+  --color-settings-border: var(--settings-border);
+  --color-settings-accent: var(--settings-accent);
+  --color-settings-accent-hover: var(--settings-accent-hover);
+  --color-settings-text-primary: var(--settings-text-primary);
+  --color-settings-text-secondary: var(--settings-text-secondary);
 
   --color-online: var(--online);
   --color-danger: var(--danger);
@@ -559,6 +576,13 @@ body {
   background-attachment: fixed;
 }
 
+/* /settings — landing page's gradient wash behind the layout; nav/cards
+   (neutral #1c1c1e + #3b82f6 accent) stay solid on top for contrast. */
+.settings-page-bg {
+  background: var(--landing-gradient);
+  background-attachment: fixed;
+}
+
 .sidebar {
   display: flex;
   flex-direction: column;
@@ -779,21 +803,20 @@ body {
   background: rgba(239, 68, 68, 0.1);
 }
 
-/* /settings page — uses the shared app-accent (same blue as the landing page) */
+/* /settings page — deliberately neutral, own --settings-* accent (not the app's navy/blue) */
 .settings-card {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--settings-card-bg);
+  border: 1px solid var(--settings-border);
   border-radius: 16px;
   padding: 24px;
   transition:
     transform 0.2s ease,
     background-color 0.2s ease,
     box-shadow 0.2s ease;
-  animation: fadeSlideUp 0.4s ease-out;
 }
 
 .settings-card:hover {
-  background: rgba(255, 255, 255, 0.07);
+  background: #202023;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
 }
 
@@ -811,7 +834,7 @@ body {
   width: 72px;
   height: 72px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--app-accent), var(--app-accent-hover));
+  background: var(--settings-accent);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -835,21 +858,18 @@ body {
   width: 26px;
   height: 26px;
   border-radius: 50%;
-  background: var(--app-bg);
-  border: 2px solid var(--app-bg);
+  background: var(--settings-bg);
+  border: 2px solid var(--settings-bg);
   color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition:
-    background-color 0.2s ease,
-    transform 0.2s ease;
+  transition: background-color 0.2s ease;
 }
 
 .settings-avatar-upload:hover {
-  background: var(--app-accent);
-  transform: scale(1.08);
+  background: var(--settings-accent);
 }
 
 /* Inputs */
@@ -868,9 +888,9 @@ body {
 }
 
 .settings-input:focus {
-  border-color: var(--app-accent);
+  border-color: var(--settings-accent);
   background: rgba(255, 255, 255, 0.1);
-  box-shadow: 0 0 0 3px rgba(33, 113, 181, 0.2);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
   outline: none;
 }
 
@@ -908,23 +928,25 @@ body {
   margin-bottom: 6px;
 }
 
-/* Gradient action button (blue) */
+/* Primary action button (flat settings blue) */
 .settings-btn-primary {
-  background: linear-gradient(90deg, var(--app-accent), var(--app-accent-hover));
+  background: var(--settings-accent);
   border-radius: 8px;
   padding: 11px 20px;
   color: #ffffff;
   font-size: 14px;
   font-weight: 600;
-  box-shadow: 0 4px 14px rgba(33, 113, 181, 0.3);
+  box-shadow: 0 4px 14px rgba(59, 130, 246, 0.3);
   transition:
     transform 0.2s ease,
-    box-shadow 0.2s ease;
+    box-shadow 0.2s ease,
+    background-color 0.2s ease;
 }
 
 .settings-btn-primary:hover {
+  background: var(--settings-accent-hover);
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(33, 113, 181, 0.45);
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.45);
 }
 
 .settings-btn-primary:active {
@@ -961,12 +983,6 @@ body {
   width: 44px;
   shrink: 0;
   border-radius: 999px;
-  transition: background-color 0.25s ease;
-  background: rgba(255, 255, 255, 0.15);
-}
-
-.settings-toggle.is-on {
-  background: linear-gradient(90deg, var(--app-accent), var(--app-accent-hover));
 }
 
 .settings-toggle-knob {
@@ -977,11 +993,6 @@ body {
   width: 20px;
   border-radius: 50%;
   background: #ffffff;
-  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.settings-toggle.is-on .settings-toggle-knob {
-  transform: translateX(20px);
 }
 
 .settings-toggle-row {
@@ -1024,7 +1035,7 @@ body {
 }
 
 .settings-segmented-option.is-active {
-  background: linear-gradient(90deg, var(--app-accent), var(--app-accent-hover));
+  background: var(--settings-accent);
   color: #ffffff;
 }
 
@@ -1057,26 +1068,6 @@ body {
 .settings-status-pill.disconnected {
   color: rgba(255, 255, 255, 0.5);
   background: rgba(255, 255, 255, 0.06);
-}
-
-/* Change password inline expand */
-.settings-expand {
-  display: grid;
-  grid-template-rows: 0fr;
-  opacity: 0;
-  transition:
-    grid-template-rows 0.3s ease,
-    opacity 0.25s ease;
-}
-
-.settings-expand.is-open {
-  grid-template-rows: 1fr;
-  opacity: 1;
-}
-
-.settings-expand-inner {
-  overflow: hidden;
-  min-height: 0;
 }
 
 /* Danger zone */
@@ -1149,27 +1140,16 @@ body {
   justify-content: center;
   padding: 24px;
   z-index: 200;
-  animation: settingsFadeIn 0.2s ease-out;
-}
-
-@keyframes settingsFadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
 }
 
 .settings-modal {
-  background: var(--app-card-bg);
+  background: var(--settings-card-bg);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 16px;
   padding: 28px;
   max-width: 380px;
   width: 100%;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-  animation: fadeSlideUp 0.25s ease-out;
 }
 
 /* Toast */
@@ -1181,7 +1161,7 @@ body {
   display: flex;
   align-items: center;
   gap: 8px;
-  background: var(--app-card-bg);
+  background: var(--settings-card-bg);
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 10px;
   padding: 12px 18px;
@@ -1222,6 +1202,7 @@ body {
     justify-content: center;
   }
 }
+
 
 @media (prefers-reduced-motion: reduce) {
   *,

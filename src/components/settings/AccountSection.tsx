@@ -1,8 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import { ChevronDown, KeyRound } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
+import { SaveButton, type SaveStatus } from "@/components/settings/SaveButton";
 
 function GoogleIcon() {
   return (
@@ -40,7 +42,7 @@ export function AccountSection({
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [saving, setSaving] = useState(false);
+  const [saveStatus, setSaveStatus] = useState<SaveStatus>("idle");
   const [formError, setFormError] = useState<string | null>(null);
   const [connecting, setConnecting] = useState(false);
   const supabase = createClient();
@@ -68,7 +70,7 @@ export function AccountSection({
       return;
     }
 
-    setSaving(true);
+    setSaveStatus("saving");
 
     const { error: verifyError } = await supabase.auth.signInWithPassword({
       email,
@@ -76,22 +78,26 @@ export function AccountSection({
     });
 
     if (verifyError) {
-      setSaving(false);
+      setSaveStatus("idle");
       setFormError("Current password is incorrect");
       return;
     }
 
     const { error: updateError } = await supabase.auth.updateUser({ password: newPassword });
-    setSaving(false);
 
     if (updateError) {
+      setSaveStatus("idle");
       setFormError(updateError.message);
       return;
     }
 
+    setSaveStatus("success");
     onToast("Password updated", "success");
     resetForm();
-    setExpanded(false);
+    setTimeout(() => {
+      setSaveStatus("idle");
+      setExpanded(false);
+    }, 1500);
   }
 
   async function handleGoogleToggle() {
@@ -130,82 +136,91 @@ export function AccountSection({
       <h2 className="settings-section-title mb-5">Account</h2>
 
       <div className="mb-4">
-        <button
+        <motion.button
           type="button"
           onClick={() => setExpanded((v) => !v)}
           aria-expanded={expanded}
+          whileTap={{ scale: 0.98 }}
           className="settings-btn-secondary flex w-full items-center justify-between"
         >
           <span className="flex items-center gap-2">
             <KeyRound size={15} />
             Change password
           </span>
-          <ChevronDown
-            size={16}
-            className={`transition-transform ${expanded ? "rotate-180" : ""}`}
-          />
-        </button>
+          <motion.span
+            animate={{ rotate: expanded ? 180 : 0 }}
+            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+            className="flex"
+          >
+            <ChevronDown size={16} />
+          </motion.span>
+        </motion.button>
 
-        <div className={`settings-expand ${expanded ? "is-open" : ""}`}>
-          <div className="settings-expand-inner">
-            <div className="mt-4 flex flex-col gap-3">
-              <div>
-                <label htmlFor="current-password" className="settings-label">
-                  Current password
-                </label>
-                <input
-                  id="current-password"
-                  type="password"
-                  value={currentPassword}
-                  onChange={(e) => setCurrentPassword(e.target.value)}
-                  className="settings-input"
-                  autoComplete="current-password"
-                />
-              </div>
-              <div>
-                <label htmlFor="new-password" className="settings-label">
-                  New password
-                </label>
-                <input
-                  id="new-password"
-                  type="password"
-                  value={newPassword}
-                  onChange={(e) => setNewPassword(e.target.value)}
-                  className="settings-input"
-                  autoComplete="new-password"
-                />
-              </div>
-              <div>
-                <label htmlFor="confirm-password" className="settings-label">
-                  Confirm password
-                </label>
-                <input
-                  id="confirm-password"
-                  type="password"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  className="settings-input"
-                  autoComplete="new-password"
-                />
-              </div>
+        <AnimatePresence initial={false}>
+          {expanded && (
+            <motion.div
+              key="password-form"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.15, ease: "easeOut" }}
+              style={{ transformOrigin: "top" }}
+              className="overflow-hidden"
+            >
+              <div className="mt-4 flex flex-col gap-3">
+                <div>
+                  <label htmlFor="current-password" className="settings-label">
+                    Current password
+                  </label>
+                  <input
+                    id="current-password"
+                    type="password"
+                    value={currentPassword}
+                    onChange={(e) => setCurrentPassword(e.target.value)}
+                    className="settings-input"
+                    autoComplete="current-password"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="new-password" className="settings-label">
+                    New password
+                  </label>
+                  <input
+                    id="new-password"
+                    type="password"
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    className="settings-input"
+                    autoComplete="new-password"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="confirm-password" className="settings-label">
+                    Confirm password
+                  </label>
+                  <input
+                    id="confirm-password"
+                    type="password"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    className="settings-input"
+                    autoComplete="new-password"
+                  />
+                </div>
 
-              {formError && (
-                <p role="alert" className="text-sm text-red-400">
-                  {formError}
-                </p>
-              )}
+                {formError && (
+                  <p role="alert" className="text-sm text-red-400">
+                    {formError}
+                  </p>
+                )}
 
-              <button
-                type="button"
-                onClick={handleSavePassword}
-                disabled={saving}
-                className="settings-btn-primary w-full"
-              >
-                {saving ? "Saving..." : "Save"}
-              </button>
-            </div>
-          </div>
-        </div>
+                <SaveButton status={saveStatus} onClick={handleSavePassword} className="w-full">
+                  Save
+                </SaveButton>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
 
       <div className="settings-connected-row">
@@ -220,14 +235,15 @@ export function AccountSection({
             </span>
           </div>
         </div>
-        <button
+        <motion.button
           type="button"
           onClick={handleGoogleToggle}
           disabled={connecting}
+          whileTap={connecting ? undefined : { scale: 0.98 }}
           className="settings-btn-secondary"
         >
           {connecting ? "..." : isGoogleConnected ? "Disconnect" : "Connect"}
-        </button>
+        </motion.button>
       </div>
     </section>
   );

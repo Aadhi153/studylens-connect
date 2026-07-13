@@ -1,8 +1,10 @@
 "use client";
 
 import { useRef, useState } from "react";
+import { motion } from "framer-motion";
 import { Camera, Lock } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
+import { SaveButton, type SaveStatus } from "@/components/settings/SaveButton";
 
 export function ProfileSection({
   email,
@@ -17,7 +19,7 @@ export function ProfileSection({
 }) {
   const [displayName, setDisplayName] = useState(initialDisplayName);
   const [avatarPreview, setAvatarPreview] = useState<string | null>(initialAvatarUrl);
-  const [saving, setSaving] = useState(false);
+  const [saveStatus, setSaveStatus] = useState<SaveStatus>("idle");
   const fileInputRef = useRef<HTMLInputElement>(null);
   const supabase = createClient();
 
@@ -32,17 +34,20 @@ export function ProfileSection({
   }
 
   async function handleSave() {
-    setSaving(true);
+    setSaveStatus("saving");
     const { error } = await supabase.auth.updateUser({
       data: { display_name: displayName },
     });
-    setSaving(false);
 
     if (error) {
+      setSaveStatus("idle");
       onToast(error.message, "error");
       return;
     }
+
+    setSaveStatus("success");
     onToast("Profile updated", "success");
+    setTimeout(() => setSaveStatus("idle"), 1500);
   }
 
   return (
@@ -57,14 +62,17 @@ export function ProfileSection({
           ) : (
             initials
           )}
-          <button
+          <motion.button
             type="button"
             onClick={() => fileInputRef.current?.click()}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            transition={{ type: "spring", stiffness: 400, damping: 20 }}
             className="settings-avatar-upload"
             aria-label="Upload profile photo"
           >
             <Camera size={13} />
-          </button>
+          </motion.button>
           <input
             ref={fileInputRef}
             type="file"
@@ -103,14 +111,7 @@ export function ProfileSection({
         </div>
       </div>
 
-      <button
-        type="button"
-        onClick={handleSave}
-        disabled={saving}
-        className="settings-btn-primary w-full"
-      >
-        {saving ? "Saving..." : "Save Changes"}
-      </button>
+      <SaveButton status={saveStatus} onClick={handleSave} className="w-full" />
     </section>
   );
 }

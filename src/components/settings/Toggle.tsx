@@ -1,5 +1,7 @@
 "use client";
 
+import { motion } from "framer-motion";
+
 export function Toggle({
   checked,
   onChange,
@@ -22,16 +24,23 @@ export function Toggle({
           {description && <p className="text-xs text-white/50">{description}</p>}
         </div>
       </div>
-      <button
+      <motion.button
         type="button"
         role="switch"
         aria-checked={checked}
         aria-label={label}
         onClick={() => onChange(!checked)}
-        className={`settings-toggle shrink-0 ${checked ? "is-on" : ""}`}
+        whileTap={{ scale: 0.95 }}
+        animate={{ backgroundColor: checked ? "#3b82f6" : "rgba(255,255,255,0.15)" }}
+        transition={{ duration: 0.18, ease: "easeOut" }}
+        className="settings-toggle relative shrink-0"
       >
-        <span className="settings-toggle-knob" />
-      </button>
+        <motion.span
+          className="settings-toggle-knob"
+          animate={{ x: checked ? 20 : 0 }}
+          transition={{ type: "spring", stiffness: 500, damping: 32 }}
+        />
+      </motion.button>
     </div>
   );
 }

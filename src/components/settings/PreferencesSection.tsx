@@ -1,8 +1,7 @@
 "use client";
 
-import { Bell, Mail, MessageSquare, Eye, Moon, Sun } from "lucide-react";
+import { Bell, Mail, MessageSquare, Eye } from "lucide-react";
 import { Toggle } from "@/components/settings/Toggle";
-import type { Theme } from "@/components/settings/SettingsSections";
 
 export function PreferencesSection({
   emailNotifications,
@@ -13,8 +12,6 @@ export function PreferencesSection({
   onMessageSoundsChange,
   readReceipts,
   onReadReceiptsChange,
-  theme,
-  onThemeChange,
 }: {
   emailNotifications: boolean;
   onEmailNotificationsChange: (value: boolean) => void;
@@ -24,8 +21,6 @@ export function PreferencesSection({
   onMessageSoundsChange: (value: boolean) => void;
   readReceipts: boolean;
   onReadReceiptsChange: (value: boolean) => void;
-  theme: Theme;
-  onThemeChange: (theme: Theme) => void;
 }) {
   return (
     <section className="settings-card">
@@ -59,13 +54,6 @@ export function PreferencesSection({
           description="Let others see when you've read their messages"
           checked={readReceipts}
           onChange={onReadReceiptsChange}
-        />
-        <Toggle
-          icon={theme === "light" ? <Sun size={16} /> : <Moon size={16} />}
-          label="Dark / Light mode"
-          description="Quick switch, see Appearance for more options"
-          checked={theme === "light"}
-          onChange={(value) => onThemeChange(value ? "light" : "dark")}
         />
       </div>
     </section>
