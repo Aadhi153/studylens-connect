@@ -75,7 +75,7 @@ export function AppearanceSection({
             className="settings-input appearance-none pr-9"
           >
             {LANGUAGES.map((lang) => (
-              <option key={lang.code} value={lang.code} className="bg-[#1f2229]">
+              <option key={lang.code} value={lang.code} className="bg-app-card">
                 {lang.label}
               </option>
             ))}

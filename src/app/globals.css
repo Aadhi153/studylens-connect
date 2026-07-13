@@ -14,23 +14,29 @@
   --landing-text-on-gradient: #ffffff;
   --landing-text-secondary-on-gradient: rgba(255, 255, 255, 0.8);
 
-  /* App/chat pages — neutral dark system */
-  --app-bg: #1b1e24;
-  --app-card-bg: #24272e;
-  --app-accent: #5b6b85;
-  --app-bubble-self: #5b6b85;
-  --app-bubble-other: #2e323a;
-  --app-text-primary: #f1f1f0;
-  --app-text-secondary: #8b8d95;
+  /* App/chat pages — same navy/blue system as the landing page */
+  --app-bg: #0b1e3d;
+  --app-bg-elevated: rgba(255, 255, 255, 0.04);
+  --app-card-bg: #16304f;
+  --app-border: rgba(255, 255, 255, 0.1);
+  --app-accent: #2171b5;
+  --app-accent-hover: #375c8c;
+  --app-bubble-self: #1e3a5f;
+  --app-bubble-other: #1c3652;
+  --app-text-primary: #ffffff;
+  --app-text-secondary: rgba(255, 255, 255, 0.55);
 
   /* Semantic */
   --online: #22c55e;
+  --danger: #ef4444;
 
   /* Group avatar tints */
   --tint-1: #1e3a5f;
   --tint-2: #345c82;
   --tint-3: #4f7699;
   --tint-4: #7fa3bf;
+  --tint-5: #6baed6;
+  --tint-6: #274d73;
 }
 
 @theme inline {
@@ -39,19 +45,25 @@
   --color-landing-on-gradient-secondary: var(--landing-text-secondary-on-gradient);
 
   --color-app-bg: var(--app-bg);
+  --color-app-bg-elevated: var(--app-bg-elevated);
   --color-app-card: var(--app-card-bg);
+  --color-app-border: var(--app-border);
   --color-app-accent: var(--app-accent);
+  --color-app-accent-hover: var(--app-accent-hover);
   --color-app-bubble-self: var(--app-bubble-self);
   --color-app-bubble-other: var(--app-bubble-other);
   --color-app-text-primary: var(--app-text-primary);
   --color-app-text-secondary: var(--app-text-secondary);
 
   --color-online: var(--online);
+  --color-danger: var(--danger);
 
   --color-tint-1: var(--tint-1);
   --color-tint-2: var(--tint-2);
   --color-tint-3: var(--tint-3);
   --color-tint-4: var(--tint-4);
+  --color-tint-5: var(--tint-5);
+  --color-tint-6: var(--tint-6);
 
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
@@ -543,16 +555,57 @@ body {
 
 /* /groups and other authenticated app pages */
 .groups-page-bg {
-  background: linear-gradient(160deg, #0b1e3d 0%, #1b2c45 100%);
+  background: var(--landing-gradient);
+  background-attachment: fixed;
 }
 
-.topbar {
+.sidebar {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  width: 72px;
+  flex-shrink: 0;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  padding: 20px 12px;
+  border-right: 1px solid var(--app-border);
+  background: var(--app-bg-elevated);
+}
+
+@media (min-width: 768px) {
+  .sidebar {
+    width: 240px;
+    padding: 24px 20px;
+  }
+}
+
+.sidebar-logo {
+  display: flex;
   align-items: center;
-  padding: 16px 32px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(255, 255, 255, 0.03);
+  justify-content: center;
+  gap: 10px;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 15px;
+  margin-bottom: 32px;
+}
+
+@media (min-width: 768px) {
+  .sidebar-logo {
+    justify-content: flex-start;
+  }
+}
+
+.sidebar-footer {
+  margin-top: auto;
+  display: flex;
+  justify-content: center;
+}
+
+@media (min-width: 768px) {
+  .sidebar-footer {
+    justify-content: flex-start;
+  }
 }
 
 /* Scoped to /groups action buttons — distinct from the landing page's
@@ -576,7 +629,7 @@ body {
 }
 
 .groups-btn-primary {
-  background: linear-gradient(90deg, #2171b5, #375c8c);
+  background: linear-gradient(90deg, var(--app-accent), var(--app-accent-hover));
   border-radius: 8px;
   padding: 10px 18px;
   color: #ffffff;
@@ -615,7 +668,7 @@ body {
   align-items: center;
   justify-content: center;
   margin-bottom: 16px;
-  color: #6baed6;
+  color: var(--app-accent-hover);
 }
 
 .empty-state-title {
@@ -656,7 +709,7 @@ body {
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #2171b5, #375c8c);
+  background: linear-gradient(135deg, var(--app-accent), var(--app-accent-hover));
   display: flex;
   align-items: center;
   justify-content: center;
@@ -675,7 +728,7 @@ body {
 .user-dropdown {
   position: absolute;
   top: 48px;
-  right: 0;
+  left: 0;
   background: rgba(255, 255, 255, 0.06);
   -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
@@ -686,6 +739,11 @@ body {
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
   z-index: 100;
   animation: fadeSlideUp 0.15s ease-out;
+}
+
+.user-dropdown.placement-top {
+  top: auto;
+  bottom: 48px;
 }
 
 .dropdown-email {
@@ -721,7 +779,7 @@ body {
   background: rgba(239, 68, 68, 0.1);
 }
 
-/* /settings page — indigo/cyan accent, distinct from the app's default blue */
+/* /settings page — uses the shared app-accent (same blue as the landing page) */
 .settings-card {
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -753,7 +811,7 @@ body {
   width: 72px;
   height: 72px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #6366f1, #06b6d4);
+  background: linear-gradient(135deg, var(--app-accent), var(--app-accent-hover));
   display: flex;
   align-items: center;
   justify-content: center;
@@ -777,8 +835,8 @@ body {
   width: 26px;
   height: 26px;
   border-radius: 50%;
-  background: #1b1e24;
-  border: 2px solid rgba(27, 30, 36, 1);
+  background: var(--app-bg);
+  border: 2px solid var(--app-bg);
   color: #ffffff;
   display: flex;
   align-items: center;
@@ -790,7 +848,7 @@ body {
 }
 
 .settings-avatar-upload:hover {
-  background: #6366f1;
+  background: var(--app-accent);
   transform: scale(1.08);
 }
 
@@ -810,9 +868,9 @@ body {
 }
 
 .settings-input:focus {
-  border-color: #6366f1;
+  border-color: var(--app-accent);
   background: rgba(255, 255, 255, 0.1);
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+  box-shadow: 0 0 0 3px rgba(33, 113, 181, 0.2);
   outline: none;
 }
 
@@ -850,15 +908,15 @@ body {
   margin-bottom: 6px;
 }
 
-/* Gradient action button (indigo -> cyan) */
+/* Gradient action button (blue) */
 .settings-btn-primary {
-  background: linear-gradient(90deg, #6366f1, #06b6d4);
+  background: linear-gradient(90deg, var(--app-accent), var(--app-accent-hover));
   border-radius: 8px;
   padding: 11px 20px;
   color: #ffffff;
   font-size: 14px;
   font-weight: 600;
-  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.3);
+  box-shadow: 0 4px 14px rgba(33, 113, 181, 0.3);
   transition:
     transform 0.2s ease,
     box-shadow 0.2s ease;
@@ -866,7 +924,7 @@ body {
 
 .settings-btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.45);
+  box-shadow: 0 6px 20px rgba(33, 113, 181, 0.45);
 }
 
 .settings-btn-primary:active {
@@ -908,7 +966,7 @@ body {
 }
 
 .settings-toggle.is-on {
-  background: linear-gradient(90deg, #6366f1, #06b6d4);
+  background: linear-gradient(90deg, var(--app-accent), var(--app-accent-hover));
 }
 
 .settings-toggle-knob {
@@ -966,7 +1024,7 @@ body {
 }
 
 .settings-segmented-option.is-active {
-  background: linear-gradient(90deg, #6366f1, #06b6d4);
+  background: linear-gradient(90deg, var(--app-accent), var(--app-accent-hover));
   color: #ffffff;
 }
 
@@ -1104,7 +1162,7 @@ body {
 }
 
 .settings-modal {
-  background: #1f2229;
+  background: var(--app-card-bg);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 16px;
   padding: 28px;
@@ -1123,7 +1181,7 @@ body {
   display: flex;
   align-items: center;
   gap: 8px;
-  background: #1f2229;
+  background: var(--app-card-bg);
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 10px;
   padding: 12px 18px;
