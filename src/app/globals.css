@@ -361,33 +361,45 @@ body {
   animation-delay: 0.6s;
 }
 
-/* Auth pages (login / signup) */
-.auth-page-bg {
-  background: linear-gradient(160deg, #0b1e3d 0%, #1b2c45 100%);
+/* Auth pages (login / signup) — modern split-screen layout: a full-bleed,
+   fixed brand panel (left) and a boxed form card on its own panel (right). */
+.auth-brand-panel {
+  background: var(--landing-gradient);
+  box-shadow: 12px 0 40px rgba(0, 0, 0, 0.35);
 }
 
-.bg-glow {
+.auth-brand-panel::after {
+  content: "";
   position: absolute;
-  width: 500px;
-  height: 500px;
-  background: radial-gradient(circle, rgba(33, 113, 181, 0.25) 0%, transparent 70%);
-  filter: blur(60px);
-  top: 20%;
-  left: 50%;
-  transform: translateX(-50%);
+  inset: 0 0 0 auto;
+  width: 1px;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(147, 197, 253, 0.4) 20%,
+    rgba(147, 197, 253, 0.4) 80%,
+    transparent
+  );
+}
+
+.auth-brand-glow {
+  position: absolute;
+  width: 480px;
+  height: 480px;
+  background: radial-gradient(circle, rgba(96, 165, 250, 0.25) 0%, transparent 70%);
+  filter: blur(70px);
+  bottom: -10%;
+  right: -10%;
   pointer-events: none;
 }
 
-.auth-card {
-  background: rgba(255, 255, 255, 0.06);
-  -webkit-backdrop-filter: blur(12px);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+.auth-form-card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 16px;
   padding: 32px;
-  max-width: 320px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
-  animation: fadeSlideUp 0.5s ease-out;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+  animation: fadeSlideUp 0.3s ease-out;
 }
 
 @keyframes fadeSlideUp {
@@ -405,6 +417,34 @@ body {
   position: relative;
 }
 
+/* Static, non-floating label pattern (login form): label sits in normal
+   document flow directly above its input — no absolute positioning, no
+   negative margins, so it can never overlap the input's text or border. */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.form-label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.form-label-row .form-label {
+  margin-bottom: 0;
+}
+
 .auth-input {
   background: rgba(255, 255, 255, 0.07);
   border: 1px solid rgba(255, 255, 255, 0.15);
@@ -419,9 +459,9 @@ body {
 }
 
 .auth-input:focus {
-  border-color: #2171b5;
+  border-color: #3b82f6;
   background: rgba(255, 255, 255, 0.1);
-  box-shadow: 0 0 0 3px rgba(33, 113, 181, 0.2);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
   outline: none;
 }
 
@@ -453,45 +493,26 @@ body {
   margin-top: 4px;
 }
 
-.floating-label {
-  position: absolute;
-  left: 14px;
-  top: 12px;
-  color: rgba(255, 255, 255, 0.4);
-  font-size: 14px;
-  pointer-events: none;
-  transition: all 0.2s ease;
-}
-
-.auth-input:focus + .floating-label,
-.auth-input:not(:placeholder-shown) + .floating-label {
-  top: -8px;
-  left: 10px;
-  font-size: 11px;
-  background: #0b1e3d;
-  padding: 0 4px;
-  color: #6baed6;
-}
-
 .auth-submit-btn {
-  background: linear-gradient(90deg, #2171b5, #375c8c);
+  background: #3b82f6;
   border-radius: 8px;
   padding: 13px;
   color: #ffffff;
   font-weight: 600;
-  box-shadow: 0 4px 14px rgba(33, 113, 181, 0.35);
+  box-shadow: 0 4px 14px rgba(59, 130, 246, 0.35);
   transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
+    transform 0.15s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease;
 }
 
 .auth-submit-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(33, 113, 181, 0.5);
+  background: #2563eb;
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5);
 }
 
 .auth-submit-btn:active {
-  transform: translateY(0);
+  transform: scale(0.98);
 }
 
 .auth-submit-btn:disabled {
@@ -551,7 +572,8 @@ body {
 }
 
 .auth-link {
-  color: #6baed6;
+  color: #93c5fd;
+  font-weight: 500;
   text-decoration: none;
   transition: color 0.2s ease;
 }
