@@ -1,42 +1,48 @@
 "use client";
 
-import { useRef, useState } from "react";
-import { motion } from "framer-motion";
-import { Camera, Lock } from "lucide-react";
+import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { SaveButton, type SaveStatus } from "@/components/settings/SaveButton";
+import { BasicInfoGroup } from "@/components/settings/BasicInfoGroup";
+import { ContactGroup } from "@/components/settings/ContactGroup";
+import { AboutGroup } from "@/components/settings/AboutGroup";
+import type { ProfileStats } from "@/lib/profileStats";
 
 export function ProfileSection({
   email,
   initialDisplayName,
   initialAvatarUrl,
+  initialBio,
+  initialTimezone,
+  memberSince,
+  stats,
   onToast,
 }: {
   email: string;
   initialDisplayName: string;
   initialAvatarUrl: string | null;
+  initialBio: string;
+  initialTimezone: string;
+  memberSince: string;
+  stats: ProfileStats;
   onToast: (message: string, type: "success" | "error") => void;
 }) {
   const [displayName, setDisplayName] = useState(initialDisplayName);
+  const [bio, setBio] = useState(initialBio);
+  const [timezone, setTimezone] = useState(
+    initialTimezone ||
+      (typeof Intl !== "undefined" ? Intl.DateTimeFormat().resolvedOptions().timeZone : "UTC")
+  );
   const [avatarPreview, setAvatarPreview] = useState<string | null>(initialAvatarUrl);
   const [saveStatus, setSaveStatus] = useState<SaveStatus>("idle");
-  const fileInputRef = useRef<HTMLInputElement>(null);
   const supabase = createClient();
 
   const initials = (displayName || email || "?").trim().slice(0, 2).toUpperCase();
 
-  function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = () => setAvatarPreview(reader.result as string);
-    reader.readAsDataURL(file);
-  }
-
   async function handleSave() {
     setSaveStatus("saving");
     const { error } = await supabase.auth.updateUser({
-      data: { display_name: displayName },
+      data: { display_name: displayName, bio, timezone },
     });
 
     if (error) {
@@ -54,64 +60,28 @@ export function ProfileSection({
     <section className="settings-card">
       <h2 className="settings-section-title mb-5">Profile</h2>
 
-      <div className="mb-6 flex items-center gap-4">
-        <div className="settings-avatar">
-          {avatarPreview ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={avatarPreview} alt="" />
-          ) : (
-            initials
-          )}
-          <motion.button
-            type="button"
-            onClick={() => fileInputRef.current?.click()}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            transition={{ type: "spring", stiffness: 400, damping: 20 }}
-            className="settings-avatar-upload"
-            aria-label="Upload profile photo"
-          >
-            <Camera size={13} />
-          </motion.button>
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept="image/*"
-            className="hidden"
-            onChange={handleFileChange}
-          />
-        </div>
-        <div>
-          <p className="text-sm font-medium text-white">{displayName || "Add your name"}</p>
-          <p className="text-xs text-white/50">{email}</p>
-        </div>
-      </div>
+      <div className="flex flex-col gap-5">
+        <BasicInfoGroup
+          displayName={displayName}
+          onDisplayNameChange={setDisplayName}
+          bio={bio}
+          onBioChange={setBio}
+          avatarPreview={avatarPreview}
+          onAvatarChange={setAvatarPreview}
+          initials={initials}
+        />
 
-      <div className="mb-4">
-        <label htmlFor="display-name" className="settings-label">
-          Display name
-        </label>
-        <input
-          id="display-name"
-          type="text"
-          value={displayName}
-          onChange={(e) => setDisplayName(e.target.value)}
-          placeholder="Your name"
-          className="settings-input"
+        <ContactGroup email={email} timezone={timezone} onTimezoneChange={setTimezone} />
+
+        <AboutGroup
+          memberSince={memberSince}
+          streak={stats.streak}
+          totalNotes={stats.totalNotes}
+          groupsJoined={stats.groupsJoined}
         />
       </div>
 
-      <div className="mb-6">
-        <label htmlFor="email" className="settings-label">
-          Email
-        </label>
-        <div className="settings-input-icon-wrap">
-          <Lock size={14} className="settings-input-icon" />
-          <input id="email" type="email" value={email} readOnly className="settings-input" />
-        </div>
-      </div>
-
-      <SaveButton status={saveStatus} onClick={handleSave} className="w-full" />
+      <SaveButton status={saveStatus} onClick={handleSave} className="mt-6 w-full" />
     </section>
   );
 }
