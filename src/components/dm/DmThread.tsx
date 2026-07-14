@@ -4,11 +4,14 @@ import { useEffect, useRef, useState } from "react";
 import { MOCK_DM_THREADS, MOCK_DM_MESSAGES, type DmMessage } from "@/components/dm/mockDmData";
 import { MessageBubble, type ChatMessage } from "@/components/chat/MessageBubble";
 import { MessageInput } from "@/components/chat/MessageInput";
+import { avatarColorFor, getInitials } from "@/lib/avatarColor";
 
-function toChatMessage(m: DmMessage): ChatMessage {
+function toChatMessage(m: DmMessage, threadId: string): ChatMessage {
   return {
     id: m.id,
-    senderId: m.senderId,
+    // Contact's avatar color must match across the DM list, header, and bubbles,
+    // so incoming messages are keyed by the thread id rather than the literal "them".
+    senderId: m.senderId === "me" ? "me" : threadId,
     senderName: m.senderName,
     content: m.content,
     imageUrl: null,
@@ -51,8 +54,10 @@ export function DmThread({ threadId }: { threadId: string }) {
   return (
     <div className="flex h-full flex-col">
       <div className="flex items-center gap-3 border-b border-app-border bg-app-card px-4 py-3">
-        <div className="relative flex h-9 w-9 items-center justify-center rounded-full bg-tint-3 text-xs font-semibold text-white">
-          {thread.name.slice(0, 2).toUpperCase()}
+        <div
+          className={`relative flex h-9 w-9 items-center justify-center rounded-full text-xs font-semibold text-white ${avatarColorFor(thread.id)}`}
+        >
+          {getInitials(thread.name)}
           {thread.online && (
             <span className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full border-2 border-app-card bg-online" />
           )}
@@ -70,7 +75,7 @@ export function DmThread({ threadId }: { threadId: string }) {
           return (
             <MessageBubble
               key={m.id}
-              message={toChatMessage(m)}
+              message={toChatMessage(m, thread.id)}
               isSelf={m.senderId === "me"}
               showHeader={showHeader}
             />

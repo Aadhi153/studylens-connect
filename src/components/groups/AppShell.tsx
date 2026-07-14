@@ -48,7 +48,7 @@ function ShellInner({
           </button>
           <span className="text-sm font-medium text-app-text-primary">StudyLens Connect</span>
         </div>
-        <div className="min-h-0 flex-1">{children}</div>
+        <div className="min-h-0 flex-1 bg-app-content-bg">{children}</div>
       </div>
     </div>
   );

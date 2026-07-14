@@ -1,3 +1,5 @@
+import { avatarColorFor, getInitials } from "@/lib/avatarColor";
+
 export type ChatMessage = {
   id: string;
   senderId: string;
@@ -7,14 +9,6 @@ export type ChatMessage = {
   createdAt: string;
   readByOthers: boolean;
 };
-
-const tints = ["bg-tint-1", "bg-tint-2", "bg-tint-3", "bg-tint-4", "bg-tint-5", "bg-tint-6"];
-
-function tintFor(id: string) {
-  let hash = 0;
-  for (const char of id) hash = (hash * 31 + char.charCodeAt(0)) >>> 0;
-  return tints[hash % tints.length];
-}
 
 function formatTime(iso: string) {
   return new Date(iso).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
@@ -35,9 +29,9 @@ export function MessageBubble({
         <div className="w-8 shrink-0">
           {showHeader && (
             <div
-              className={`flex h-8 w-8 items-center justify-center rounded-full text-xs font-medium text-white ${tintFor(message.senderId)}`}
+              className={`flex h-8 w-8 items-center justify-center rounded-full text-xs font-medium text-white ${avatarColorFor(message.senderId)}`}
             >
-              {message.senderName.slice(0, 2).toUpperCase()}
+              {getInitials(message.senderName)}
             </div>
           )}
         </div>

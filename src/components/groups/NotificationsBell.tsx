@@ -50,7 +50,7 @@ export function NotificationsBell() {
       >
         <Bell size={20} />
         {MOCK_NOTIFICATIONS.length > 0 && (
-          <span className="absolute right-1.5 top-1.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-app-accent px-1 text-[10px] font-semibold text-white">
+          <span className="absolute right-1.5 top-1.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-app-unread px-1 text-[10px] font-semibold text-app-rail-bg">
             {MOCK_NOTIFICATIONS.length}
           </span>
         )}

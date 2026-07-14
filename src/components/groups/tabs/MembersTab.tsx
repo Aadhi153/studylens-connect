@@ -1,4 +1,4 @@
-const tints = ["bg-tint-1", "bg-tint-2", "bg-tint-3", "bg-tint-4", "bg-tint-5", "bg-tint-6"];
+import { avatarColorFor, getInitials } from "@/lib/avatarColor";
 
 type Member = { id: string; displayName: string };
 
@@ -22,15 +22,15 @@ export function MembersTab({
 
       <div className="mx-auto w-full max-w-lg flex-1 overflow-y-auto px-4 py-6">
         <div className="flex flex-col gap-1">
-          {members.map((member, i) => (
+          {members.map((member) => (
             <div
               key={member.id}
               className="flex items-center gap-3 rounded-xl px-3 py-2.5 hover:bg-white/5"
             >
               <div
-                className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-semibold text-white ${tints[i % tints.length]}`}
+                className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-semibold text-white ${avatarColorFor(member.id)}`}
               >
-                {member.displayName.slice(0, 2).toUpperCase()}
+                {getInitials(member.displayName)}
               </div>
               <p className="text-sm text-app-text-primary">
                 {member.displayName}

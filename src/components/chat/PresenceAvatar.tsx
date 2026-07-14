@@ -1,20 +1,20 @@
-const tints = ["bg-tint-1", "bg-tint-2", "bg-tint-3", "bg-tint-4", "bg-tint-5", "bg-tint-6"];
+import { avatarColorFor, getInitials } from "@/lib/avatarColor";
 
 export function PresenceAvatar({
   name,
-  index,
+  id,
   online,
 }: {
   name: string;
-  index: number;
+  id: string;
   online: boolean;
 }) {
   return (
     <div className="relative" title={name}>
       <div
-        className={`flex h-8 w-8 items-center justify-center rounded-full text-xs font-medium text-white ${tints[index % tints.length]}`}
+        className={`flex h-8 w-8 items-center justify-center rounded-full text-xs font-medium text-white ${avatarColorFor(id)}`}
       >
-        {name.slice(0, 2).toUpperCase()}
+        {getInitials(name)}
       </div>
       {online && (
         <span className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full border-2 border-app-card bg-online" />
