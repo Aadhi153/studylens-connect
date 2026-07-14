@@ -5,6 +5,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ChevronDown, KeyRound } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { SaveButton, type SaveStatus } from "@/components/settings/SaveButton";
+import { TwoFactorToggle } from "@/components/settings/TwoFactorToggle";
+import { ActiveSessionsList } from "@/components/settings/ActiveSessionsList";
 
 function GoogleIcon() {
   return (
@@ -136,6 +138,10 @@ export function AccountSection({
       <h2 className="settings-section-title mb-5">Account</h2>
 
       <div className="mb-4">
+        <TwoFactorToggle onToast={onToast} />
+      </div>
+
+      <div className="mb-4">
         <motion.button
           type="button"
           onClick={() => setExpanded((v) => !v)}
@@ -160,11 +166,10 @@ export function AccountSection({
           {expanded && (
             <motion.div
               key="password-form"
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              transition={{ duration: 0.15, ease: "easeOut" }}
-              style={{ transformOrigin: "top" }}
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
               className="overflow-hidden"
             >
               <div className="mt-4 flex flex-col gap-3">
@@ -245,6 +250,8 @@ export function AccountSection({
           {connecting ? "..." : isGoogleConnected ? "Disconnect" : "Connect"}
         </motion.button>
       </div>
+
+      <ActiveSessionsList onToast={onToast} />
     </section>
   );
 }

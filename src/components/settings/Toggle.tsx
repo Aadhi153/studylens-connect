@@ -38,7 +38,7 @@ export function Toggle({
         <motion.span
           className="settings-toggle-knob"
           animate={{ x: checked ? 20 : 0 }}
-          transition={{ type: "spring", stiffness: 500, damping: 32 }}
+          transition={{ duration: 0.18, ease: "easeOut" }}
         />
       </motion.button>
     </div>
