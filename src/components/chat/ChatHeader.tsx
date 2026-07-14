@@ -57,11 +57,11 @@ export function ChatHeader({
 
         <div className="ml-auto flex items-center gap-1">
           <div className="mr-1 hidden -space-x-2 sm:flex">
-            {memberProfiles.slice(0, 4).map((p, i) => (
+            {memberProfiles.slice(0, 4).map((p) => (
               <PresenceAvatar
                 key={p.id}
                 name={p.displayName}
-                index={i}
+                id={p.id}
                 online={onlineIds.has(p.id)}
               />
             ))}

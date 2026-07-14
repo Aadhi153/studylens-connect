@@ -6,6 +6,7 @@ import { usePathname, useSearchParams } from "next/navigation";
 import { Search, Plus, KeyRound, ArrowLeft, MessageSquare, FileText, Users, Settings } from "lucide-react";
 import { GroupRow } from "@/components/groups/GroupRow";
 import { formatRelativeTime } from "@/lib/format";
+import { avatarColorFor, getInitials } from "@/lib/avatarColor";
 import { MOCK_DM_THREADS } from "@/components/dm/mockDmData";
 import type { GroupPreview } from "@/components/groups/types";
 
@@ -75,8 +76,10 @@ function DmList({ filter }: { filter: string }) {
           href={`/groups?view=dms&dm=${thread.id}`}
           className="flex items-center gap-3 rounded-xl px-3 py-2.5 transition hover:bg-white/5"
         >
-          <div className="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-tint-3 text-sm font-semibold text-white">
-            {thread.name.slice(0, 2).toUpperCase()}
+          <div
+            className={`relative flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-semibold text-white ${avatarColorFor(thread.id)}`}
+          >
+            {getInitials(thread.name)}
             {thread.online && (
               <span className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full border-2 border-app-bg-elevated bg-online" />
             )}
@@ -91,7 +94,7 @@ function DmList({ filter }: { filter: string }) {
             <div className="flex items-center justify-between gap-2">
               <p className="truncate text-xs text-app-text-secondary">{thread.lastMessage}</p>
               {thread.unreadCount > 0 && (
-                <span className="flex h-4 min-w-4 shrink-0 items-center justify-center rounded-full bg-app-accent px-1 text-[10px] font-semibold text-white">
+                <span className="flex h-4 min-w-4 shrink-0 items-center justify-center rounded-full bg-app-unread px-1 text-[10px] font-semibold text-app-rail-bg">
                   {thread.unreadCount}
                 </span>
               )}
@@ -123,7 +126,7 @@ export function GroupList({ groups }: { groups: GroupPreview[] }) {
 
   if (activeGroup) {
     return (
-      <div className="flex h-full w-[280px] shrink-0 flex-col border-r border-app-border bg-app-bg-elevated">
+      <div className="panel-divider-right flex h-full w-[280px] shrink-0 flex-col bg-app-bg-elevated">
         <GroupSubNav group={activeGroup} activeTab={activeTab} />
       </div>
     );
@@ -175,8 +178,8 @@ export function GroupList({ groups }: { groups: GroupPreview[] }) {
           </p>
         ) : (
           <div className="flex flex-col gap-1">
-            {filteredGroups.map((group, i) => (
-              <GroupRow key={group.id} group={group} index={i} active={group.id === activeGroupId} />
+            {filteredGroups.map((group) => (
+              <GroupRow key={group.id} group={group} active={group.id === activeGroupId} />
             ))}
           </div>
         )}

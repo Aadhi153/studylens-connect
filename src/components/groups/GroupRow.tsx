@@ -4,17 +4,14 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 import { formatRelativeTime } from "@/lib/format";
+import { avatarColorFor, getInitials } from "@/lib/avatarColor";
 import type { GroupPreview } from "@/components/groups/types";
-
-const tints = ["bg-tint-1", "bg-tint-2", "bg-tint-3", "bg-tint-4", "bg-tint-5", "bg-tint-6"];
 
 export function GroupRow({
   group,
-  index,
   active,
 }: {
   group: GroupPreview;
-  index: number;
   active: boolean;
 }) {
   const [onlineCount, setOnlineCount] = useState(0);
@@ -42,9 +39,9 @@ export function GroupRow({
       }`}
     >
       <div
-        className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-semibold text-white ${tints[index % tints.length]}`}
+        className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-semibold text-white ${avatarColorFor(group.id)}`}
       >
-        {group.name.slice(0, 2).toUpperCase()}
+        {getInitials(group.name)}
       </div>
       <div className="min-w-0 flex-1">
         <div className="flex items-center justify-between gap-2">
@@ -68,7 +65,7 @@ export function GroupRow({
               </span>
             )}
             {group.unreadCount > 0 && (
-              <span className="flex h-4 min-w-4 items-center justify-center rounded-full bg-app-accent px-1 text-[10px] font-semibold text-white">
+              <span className="flex h-4 min-w-4 items-center justify-center rounded-full bg-app-unread px-1 text-[10px] font-semibold text-app-rail-bg">
                 {group.unreadCount}
               </span>
             )}

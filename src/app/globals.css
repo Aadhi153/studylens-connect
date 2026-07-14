@@ -14,16 +14,19 @@
   --landing-text-on-gradient: #ffffff;
   --landing-text-secondary-on-gradient: rgba(255, 255, 255, 0.8);
 
-  /* App/chat pages — same navy/blue system as the landing page */
+  /* App/chat pages — same navy/blue system as the landing page.
+     Panel-level shade hierarchy (darkest -> lightest): rail < list/header/input < content. */
   --app-bg: #0b1e3d;
-  --app-bg-elevated: rgba(255, 255, 255, 0.04);
-  --app-rail-bg: #071527;
-  --app-card-bg: #16304f;
+  --app-bg-elevated: #141d33;
+  --app-rail-bg: #0f1729;
+  --app-card-bg: #141d33;
+  --app-content-bg: #1a2540;
   --app-border: rgba(255, 255, 255, 0.1);
   --app-accent: #2171b5;
   --app-accent-hover: #375c8c;
-  --app-bubble-self: #1e3a5f;
-  --app-bubble-other: #1c3652;
+  --app-unread: #f59e0b;
+  --app-bubble-self: #3b82f6;
+  --app-bubble-other: #2a2e38;
   --app-text-primary: #ffffff;
   --app-text-secondary: rgba(255, 255, 255, 0.55);
 
@@ -41,13 +44,21 @@
   --online: #22c55e;
   --danger: #ef4444;
 
-  /* Group avatar tints */
+  /* Group avatar tints (landing page mockup only) */
   --tint-1: #1e3a5f;
   --tint-2: #345c82;
   --tint-3: #4f7699;
   --tint-4: #7fa3bf;
   --tint-5: #6baed6;
   --tint-6: #274d73;
+
+  /* Per-identity avatar palette — deterministically assigned by user/group id,
+     kept consistent across list rows, chat headers, and message bubbles. */
+  --avatar-1: #3b82f6;
+  --avatar-2: #14b8a6;
+  --avatar-3: #8b5cf6;
+  --avatar-4: #f59e0b;
+  --avatar-5: #f43f5e;
 }
 
 @theme inline {
@@ -59,9 +70,11 @@
   --color-app-bg-elevated: var(--app-bg-elevated);
   --color-app-rail-bg: var(--app-rail-bg);
   --color-app-card: var(--app-card-bg);
+  --color-app-content-bg: var(--app-content-bg);
   --color-app-border: var(--app-border);
   --color-app-accent: var(--app-accent);
   --color-app-accent-hover: var(--app-accent-hover);
+  --color-app-unread: var(--app-unread);
   --color-app-bubble-self: var(--app-bubble-self);
   --color-app-bubble-other: var(--app-bubble-other);
   --color-app-text-primary: var(--app-text-primary);
@@ -84,6 +97,12 @@
   --color-tint-4: var(--tint-4);
   --color-tint-5: var(--tint-5);
   --color-tint-6: var(--tint-6);
+
+  --color-avatar-1: var(--avatar-1);
+  --color-avatar-2: var(--avatar-2);
+  --color-avatar-3: var(--avatar-3);
+  --color-avatar-4: var(--avatar-4);
+  --color-avatar-5: var(--avatar-5);
 
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
@@ -599,6 +618,12 @@ body {
 .groups-page-bg {
   background: var(--landing-gradient);
   background-attachment: fixed;
+}
+
+/* Hairline zone separator between icon rail / list panel / content area —
+   reinforces the panel shade hierarchy without a harsh border. */
+.panel-divider-right {
+  border-right: 0.5px solid rgba(255, 255, 255, 0.06);
 }
 
 /* /settings — same gradient wash as .groups-page-bg; nav/cards float on top
