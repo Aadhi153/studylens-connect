@@ -62,7 +62,7 @@ export function SettingsNav({
                     layoutId="activeNavPill"
                     className="absolute inset-0 rounded-lg bg-settings-accent transition-colors duration-300"
                     style={{ zIndex: 0 }}
-                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                    transition={{ duration: 0.25, ease: "easeOut" }}
                   />
                 )}
                 <Icon size={17} className="relative z-10" />

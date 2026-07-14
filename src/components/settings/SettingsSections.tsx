@@ -11,6 +11,8 @@ import { PreferencesSection } from "@/components/settings/PreferencesSection";
 import { AppearanceSection } from "@/components/settings/AppearanceSection";
 import { DangerZone } from "@/components/settings/DangerZone";
 import { Toast, type ToastState } from "@/components/settings/Toast";
+import { SettingsFooter } from "@/components/settings/SettingsFooter";
+import type { ProfileStats } from "@/lib/profileStats";
 
 export type Theme = "dark" | "light" | "system";
 export type SettingsSection = "profile" | "account" | "preferences" | "appearance" | "danger";
@@ -31,11 +33,19 @@ export function SettingsSections({
   email,
   displayName,
   avatarUrl,
+  bio,
+  timezone,
+  memberSince,
+  stats,
   isGoogleConnected,
 }: {
   email: string;
   displayName: string;
   avatarUrl: string | null;
+  bio: string;
+  timezone: string;
+  memberSince: string;
+  stats: ProfileStats;
   isGoogleConnected: boolean;
 }) {
   const router = useRouter();
@@ -94,58 +104,66 @@ export function SettingsSections({
           </span>
         </div>
 
-        <div className="mx-auto w-full max-w-lg px-4 py-6 md:px-10 md:py-10">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={activeSection}
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.2, ease: "easeOut" }}
-            >
-              {activeSection === "profile" && (
-                <ProfileSection
-                  email={email}
-                  initialDisplayName={displayName}
-                  initialAvatarUrl={avatarUrl}
-                  onToast={showToast}
-                />
-              )}
+        <div className="flex min-h-0 flex-1 flex-col px-4 py-6 md:px-10 md:py-10">
+          <div className="m-auto w-full max-w-[480px]">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeSection}
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.2, ease: "easeOut" }}
+              >
+                {activeSection === "profile" && (
+                  <ProfileSection
+                    email={email}
+                    initialDisplayName={displayName}
+                    initialAvatarUrl={avatarUrl}
+                    initialBio={bio}
+                    initialTimezone={timezone}
+                    memberSince={memberSince}
+                    stats={stats}
+                    onToast={showToast}
+                  />
+                )}
 
-              {activeSection === "account" && (
-                <AccountSection
-                  email={email}
-                  isGoogleConnected={isGoogleConnected}
-                  onToast={showToast}
-                />
-              )}
+                {activeSection === "account" && (
+                  <AccountSection
+                    email={email}
+                    isGoogleConnected={isGoogleConnected}
+                    onToast={showToast}
+                  />
+                )}
 
-              {activeSection === "preferences" && (
-                <PreferencesSection
-                  emailNotifications={emailNotifications}
-                  onEmailNotificationsChange={setEmailNotifications}
-                  pushNotifications={pushNotifications}
-                  onPushNotificationsChange={setPushNotifications}
-                  messageSounds={messageSounds}
-                  onMessageSoundsChange={setMessageSounds}
-                  readReceipts={readReceipts}
-                  onReadReceiptsChange={setReadReceipts}
-                />
-              )}
+                {activeSection === "preferences" && (
+                  <PreferencesSection
+                    emailNotifications={emailNotifications}
+                    onEmailNotificationsChange={setEmailNotifications}
+                    pushNotifications={pushNotifications}
+                    onPushNotificationsChange={setPushNotifications}
+                    messageSounds={messageSounds}
+                    onMessageSoundsChange={setMessageSounds}
+                    readReceipts={readReceipts}
+                    onReadReceiptsChange={setReadReceipts}
+                  />
+                )}
 
-              {activeSection === "appearance" && (
-                <AppearanceSection
-                  theme={theme}
-                  onThemeChange={setTheme}
-                  language={language}
-                  onLanguageChange={setLanguage}
-                />
-              )}
+                {activeSection === "appearance" && (
+                  <AppearanceSection
+                    theme={theme}
+                    onThemeChange={setTheme}
+                    language={language}
+                    onLanguageChange={setLanguage}
+                  />
+                )}
 
-              {activeSection === "danger" && <DangerZone onToast={showToast} />}
-            </motion.div>
-          </AnimatePresence>
+                {activeSection === "danger" && <DangerZone onToast={showToast} />}
+              </motion.div>
+            </AnimatePresence>
+          </div>
         </div>
+
+        <SettingsFooter />
       </div>
 
       <Toast toast={toast} onDismiss={() => setToast(null)} />

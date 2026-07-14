@@ -903,6 +903,17 @@ body {
   margin-bottom: 6px;
 }
 
+.settings-label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.settings-label-row .settings-label {
+  margin-bottom: 0;
+}
+
 /* Primary action button (flat settings blue) */
 .settings-btn-primary {
   background: var(--settings-accent);
@@ -1012,6 +1023,18 @@ body {
 .settings-segmented-option.is-active {
   background: var(--settings-accent);
   color: #ffffff;
+}
+
+/* Scope the focus ring to the individual pill, not the whole segmented
+   group — the browser default outline sits outside the button's box and,
+   combined with .settings-segmented's own border, reads as a double ring
+   wrapping the entire control. */
+.settings-segmented-option {
+  outline: none;
+}
+
+.settings-segmented-option:focus-visible {
+  box-shadow: 0 0 0 2px var(--settings-accent);
 }
 
 /* Connected account row */
