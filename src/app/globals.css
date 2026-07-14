@@ -17,6 +17,7 @@
   /* App/chat pages — same navy/blue system as the landing page */
   --app-bg: #0b1e3d;
   --app-bg-elevated: rgba(255, 255, 255, 0.04);
+  --app-rail-bg: #071527;
   --app-card-bg: #16304f;
   --app-border: rgba(255, 255, 255, 0.1);
   --app-accent: #2171b5;
@@ -26,8 +27,9 @@
   --app-text-primary: #ffffff;
   --app-text-secondary: rgba(255, 255, 255, 0.55);
 
-  /* Settings page — deliberately neutral, distinct from the app/dashboard's navy theme */
-  --settings-bg: #141416;
+  /* Settings page — same navy/blue gradient wash as the dashboard (see .settings-page-bg);
+     nav + section cards are semi-transparent glass panels on top of it. */
+  --settings-panel-bg: rgba(20, 25, 35, 0.85);
   --settings-card-bg: #1c1c1e;
   --settings-border: rgba(255, 255, 255, 0.08);
   --settings-accent: #3b82f6;
@@ -55,6 +57,7 @@
 
   --color-app-bg: var(--app-bg);
   --color-app-bg-elevated: var(--app-bg-elevated);
+  --color-app-rail-bg: var(--app-rail-bg);
   --color-app-card: var(--app-card-bg);
   --color-app-border: var(--app-border);
   --color-app-accent: var(--app-accent);
@@ -64,7 +67,7 @@
   --color-app-text-primary: var(--app-text-primary);
   --color-app-text-secondary: var(--app-text-secondary);
 
-  --color-settings-bg: var(--settings-bg);
+  --color-settings-panel-bg: var(--settings-panel-bg);
   --color-settings-card: var(--settings-card-bg);
   --color-settings-border: var(--settings-border);
   --color-settings-accent: var(--settings-accent);
@@ -598,8 +601,8 @@ body {
   background-attachment: fixed;
 }
 
-/* /settings — landing page's gradient wash behind the layout; nav/cards
-   (neutral #1c1c1e + #3b82f6 accent) stay solid on top for contrast. */
+/* /settings — same gradient wash as .groups-page-bg; nav/cards float on top
+   as translucent glass panels (var(--settings-panel-bg)) so it stays visible. */
 .settings-page-bg {
   background: var(--landing-gradient);
   background-attachment: fixed;
@@ -771,66 +774,16 @@ body {
   box-shadow: 0 0 0 3px rgba(33, 113, 181, 0.3);
 }
 
-.user-dropdown {
-  position: absolute;
-  top: 48px;
-  left: 0;
-  background: rgba(255, 255, 255, 0.06);
-  -webkit-backdrop-filter: blur(12px);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
-  padding: 8px;
-  min-width: 200px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-  z-index: 100;
-  animation: fadeSlideUp 0.15s ease-out;
-}
-
-.user-dropdown.placement-top {
-  top: auto;
-  bottom: 48px;
-}
-
-.dropdown-email {
-  padding: 10px 12px;
-  color: rgba(255, 255, 255, 0.5);
-  font-size: 12px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  margin-bottom: 4px;
-  overflow-wrap: break-word;
-}
-
-.dropdown-item {
-  padding: 10px 12px;
-  border-radius: 8px;
-  color: rgba(255, 255, 255, 0.85);
-  font-size: 14px;
-  cursor: pointer;
-  transition: background-color 0.15s ease;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.dropdown-item:hover {
-  background: rgba(255, 255, 255, 0.08);
-}
-
-.dropdown-item.danger {
-  color: #ef4444;
-}
-
-.dropdown-item.danger:hover {
-  background: rgba(239, 68, 68, 0.1);
-}
-
-/* /settings page — deliberately neutral, own --settings-* accent (not the app's navy/blue) */
+/* /settings page — same navy/blue gradient wash as the dashboard; nav and
+   section cards float on top as semi-transparent glass panels (var(--settings-panel-bg))
+   so the gradient stays visible behind/around their edges. */
 .settings-card {
-  background: var(--settings-card-bg);
+  background: var(--settings-panel-bg);
   border: 1px solid var(--settings-border);
   border-radius: 16px;
   padding: 24px;
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
   transition:
     transform 0.2s ease,
     background-color 0.2s ease,
@@ -838,7 +791,7 @@ body {
 }
 
 .settings-card:hover {
-  background: #202023;
+  background: rgba(24, 30, 41, 0.9);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
 }
 
@@ -880,8 +833,8 @@ body {
   width: 26px;
   height: 26px;
   border-radius: 50%;
-  background: var(--settings-bg);
-  border: 2px solid var(--settings-bg);
+  background: var(--settings-panel-bg);
+  border: 2px solid var(--settings-panel-bg);
   color: #ffffff;
   display: flex;
   align-items: center;

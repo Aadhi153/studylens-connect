@@ -75,7 +75,7 @@ export function IconRail({ userEmail }: { userEmail: string }) {
     }`;
 
   return (
-    <aside className="flex h-full w-16 shrink-0 flex-col items-center gap-1.5 border-r border-app-border bg-app-bg-elevated py-4">
+    <aside className="flex h-full w-16 shrink-0 flex-col items-center gap-1.5 border-r border-app-border bg-app-rail-bg py-4">
       <Link
         href="/groups"
         title="StudyLens Connect"

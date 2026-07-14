@@ -50,13 +50,20 @@ export function UserMenu({
       </button>
 
       {open && (
-        <div role="menu" className={`user-dropdown ${placement === "top" ? "placement-top" : ""}`}>
-          <div className="dropdown-email">{email}</div>
+        <div
+          role="menu"
+          className={`absolute left-0 z-50 w-56 rounded-xl border border-app-border bg-app-card p-1.5 shadow-2xl ${
+            placement === "top" ? "bottom-full mb-2" : "top-full mt-2"
+          }`}
+        >
+          <div className="mb-1 truncate border-b border-app-border px-2.5 py-2 text-xs text-app-text-secondary">
+            {email}
+          </div>
           <Link
             href="/settings"
             role="menuitem"
             onClick={() => setOpen(false)}
-            className="dropdown-item"
+            className="flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm text-app-text-primary transition hover:bg-white/5"
           >
             <Settings size={16} />
             Settings
@@ -65,7 +72,7 @@ export function UserMenu({
             type="button"
             role="menuitem"
             onClick={handleLogout}
-            className="dropdown-item danger w-full text-left"
+            className="flex w-full items-center gap-2.5 rounded-lg px-2.5 py-2 text-left text-sm text-danger transition hover:bg-danger/10"
           >
             <LogOut size={16} />
             Log out

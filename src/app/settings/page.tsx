@@ -1,8 +1,8 @@
-import Link from "next/link";
 import { Suspense } from "react";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { SettingsSections } from "@/components/settings/SettingsSections";
+import { SettingsPageShell } from "@/components/settings/SettingsPageShell";
 
 export default async function SettingsPage() {
   const supabase = await createClient();
@@ -17,13 +17,7 @@ export default async function SettingsPage() {
   );
 
   return (
-    <div className="settings-page-bg flex h-screen flex-col">
-      <div className="shrink-0 px-4 py-3 md:px-6">
-        <Link href="/groups" className="back-link inline-block">
-          ← Back to groups
-        </Link>
-      </div>
-
+    <SettingsPageShell>
       <Suspense>
         <SettingsSections
           email={user.email ?? ""}
@@ -32,6 +26,6 @@ export default async function SettingsPage() {
           isGoogleConnected={isGoogleConnected}
         />
       </Suspense>
-    </div>
+    </SettingsPageShell>
   );
 }
