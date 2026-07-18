@@ -42,7 +42,7 @@ function ShellInner({
             type="button"
             onClick={toggle}
             aria-label="Open menu"
-            className="flex h-8 w-8 items-center justify-center rounded-lg text-app-text-secondary hover:bg-white/5"
+            className="flex h-8 w-8 items-center justify-center rounded-lg text-app-text-secondary hover:bg-hover-overlay"
           >
             <Menu size={18} />
           </button>

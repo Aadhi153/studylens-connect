@@ -73,8 +73,8 @@ export function ChatHeader({
             aria-label="Search in conversation"
             className={`flex h-8 w-8 items-center justify-center rounded-lg transition ${
               searchOpen
-                ? "bg-app-accent/15 text-app-accent-hover"
-                : "text-app-text-secondary hover:bg-white/5 hover:text-app-text-primary"
+                ? "bg-app-active-bg text-app-accent-hover"
+                : "text-app-text-secondary hover:bg-hover-overlay hover:text-app-text-primary"
             }`}
           >
             <Search size={17} />
@@ -87,7 +87,7 @@ export function ChatHeader({
               aria-label="More options"
               aria-haspopup="menu"
               aria-expanded={menuOpen}
-              className="flex h-8 w-8 items-center justify-center rounded-lg text-app-text-secondary transition hover:bg-white/5 hover:text-app-text-primary"
+              className="flex h-8 w-8 items-center justify-center rounded-lg text-app-text-secondary transition hover:bg-hover-overlay hover:text-app-text-primary"
             >
               <MoreVertical size={17} />
             </button>
@@ -101,7 +101,7 @@ export function ChatHeader({
                   type="button"
                   role="menuitem"
                   onClick={() => setMuted((v) => !v)}
-                  className="flex w-full items-center gap-2.5 rounded-lg px-2.5 py-2 text-left text-sm text-app-text-primary transition hover:bg-white/5"
+                  className="flex w-full items-center gap-2.5 rounded-lg px-2.5 py-2 text-left text-sm text-app-text-primary transition hover:bg-hover-overlay"
                 >
                   {muted ? <Bell size={16} /> : <BellOff size={16} />}
                   {muted ? "Unmute group" : "Mute group"}
@@ -110,7 +110,7 @@ export function ChatHeader({
                   href={`/groups/${groupId}?tab=settings`}
                   role="menuitem"
                   onClick={() => setMenuOpen(false)}
-                  className="flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm text-app-text-primary transition hover:bg-white/5"
+                  className="flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm text-app-text-primary transition hover:bg-hover-overlay"
                 >
                   <Info size={16} />
                   Group info

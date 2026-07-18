@@ -44,7 +44,7 @@ export function MessageBubble({
           className={`rounded-2xl px-3 py-2 text-sm ${
             isSelf
               ? "rounded-br-sm bg-app-bubble-self text-white"
-              : "rounded-bl-sm bg-app-bubble-other text-app-text-primary"
+              : "rounded-bl-sm border border-app-border bg-app-bubble-other text-app-text-primary"
           }`}
         >
           {message.imageUrl && (

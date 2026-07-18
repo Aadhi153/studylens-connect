@@ -46,7 +46,7 @@ export function GroupSettingsTab({
             <button
               type="button"
               onClick={handleCopy}
-              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-app-border text-app-text-secondary transition hover:bg-white/5 hover:text-app-text-primary"
+              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-app-border text-app-text-secondary transition hover:bg-hover-overlay hover:text-app-text-primary"
               aria-label="Copy invite code"
             >
               {copied ? <Check size={16} className="text-online" /> : <Copy size={16} />}

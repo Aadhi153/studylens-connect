@@ -36,7 +36,7 @@ export function MessageInput({
       <button
         type="button"
         onClick={() => fileInputRef.current?.click()}
-        className="rounded-lg p-2 text-app-text-secondary hover:bg-white/5 hover:text-app-text-primary"
+        className="rounded-lg p-2 text-app-text-secondary hover:bg-hover-overlay hover:text-app-text-primary"
         aria-label="Attach image"
       >
         📎

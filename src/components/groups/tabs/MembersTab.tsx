@@ -25,7 +25,7 @@ export function MembersTab({
           {members.map((member) => (
             <div
               key={member.id}
-              className="flex items-center gap-3 rounded-xl px-3 py-2.5 hover:bg-white/5"
+              className="flex items-center gap-3 rounded-xl px-3 py-2.5 hover:bg-hover-overlay"
             >
               <div
                 className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-semibold text-white ${avatarColorFor(member.id)}`}
