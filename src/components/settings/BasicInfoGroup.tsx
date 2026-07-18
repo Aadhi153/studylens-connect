@@ -63,8 +63,8 @@ export function BasicInfoGroup({
           />
         </div>
         <div>
-          <p className="text-sm font-medium text-white">{displayName || "Add your name"}</p>
-          <p className="text-xs text-white/50">{bio || "No status set"}</p>
+          <p className="text-sm font-medium text-settings-text-primary">{displayName || "Add your name"}</p>
+          <p className="text-xs text-settings-text-secondary">{bio || "No status set"}</p>
         </div>
       </div>
 
@@ -87,7 +87,7 @@ export function BasicInfoGroup({
           <label htmlFor="bio" className="settings-label">
             Bio
           </label>
-          <span className="text-[11px] text-white/35">
+          <span className="text-[11px] text-settings-text-tertiary">
             {bio.length}/{BIO_MAX_LENGTH}
           </span>
         </div>

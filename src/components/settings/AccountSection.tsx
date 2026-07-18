@@ -214,7 +214,7 @@ export function AccountSection({
                 </div>
 
                 {formError && (
-                  <p role="alert" className="text-sm text-red-400">
+                  <p role="alert" className="text-sm text-danger">
                     {formError}
                   </p>
                 )}
@@ -232,7 +232,7 @@ export function AccountSection({
         <div className="flex items-center gap-3">
           <GoogleIcon />
           <div>
-            <p className="text-sm text-white">Google</p>
+            <p className="text-sm text-settings-text-primary">Google</p>
             <span
               className={`settings-status-pill ${isGoogleConnected ? "connected" : "disconnected"}`}
             >

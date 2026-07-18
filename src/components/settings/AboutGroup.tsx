@@ -25,20 +25,20 @@ export function AboutGroup({
   ];
 
   return (
-    <div className="border-t border-white/[0.08] pt-5">
+    <div className="border-t border-settings-border pt-5">
       <p className="settings-section-title mb-4">About you</p>
 
-      <p className="mb-4 text-sm text-white/70">Member since {joinedLabel}</p>
+      <p className="mb-4 text-sm text-settings-text-secondary">Member since {joinedLabel}</p>
 
       <div className="grid grid-cols-3 gap-2">
         {stats.map(({ icon: Icon, value, label }) => (
           <div
             key={label}
-            className="flex flex-col items-center gap-1 rounded-lg border border-white/[0.08] bg-white/[0.03] px-2 py-3 text-center"
+            className="flex flex-col items-center gap-1 rounded-lg border border-settings-border bg-hover-overlay px-2 py-3 text-center"
           >
             <Icon size={15} className="text-settings-accent" />
-            <span className="text-base font-semibold text-white">{value}</span>
-            <span className="text-[11px] leading-tight text-white/50">{label}</span>
+            <span className="text-base font-semibold text-settings-text-primary">{value}</span>
+            <span className="text-[11px] leading-tight text-settings-text-secondary">{label}</span>
           </div>
         ))}
       </div>

@@ -87,7 +87,7 @@ export function PreferencesSection({
                   onChange={(e) => setQuietStart(e.target.value)}
                   className="settings-input"
                 />
-                <span className="text-sm text-white/40">to</span>
+                <span className="text-sm text-settings-text-tertiary">to</span>
                 <input
                   type="time"
                   aria-label="Quiet hours end"
@@ -101,7 +101,7 @@ export function PreferencesSection({
         </AnimatePresence>
       </div>
 
-      <div className="mt-5 flex items-start gap-2 border-t border-white/[0.08] pt-4 text-xs text-white/40">
+      <div className="mt-5 flex items-start gap-2 border-t border-settings-border pt-4 text-xs text-settings-text-tertiary">
         <Info size={14} className="mt-0.5 shrink-0" />
         <p>Manage per-group notifications from each group&apos;s settings.</p>
       </div>

@@ -36,8 +36,8 @@ export function DangerZone({
   return (
     <>
       <section className="settings-danger-card">
-        <h2 className="mb-1 text-sm font-semibold text-red-400">Danger zone</h2>
-        <p className="mb-4 text-xs text-white/50">
+        <h2 className="mb-1 text-sm font-semibold text-danger">Danger zone</h2>
+        <p className="mb-4 text-xs text-settings-text-secondary">
           Permanently delete your account and all associated data. This cannot be undone.
         </p>
         <motion.button
@@ -72,14 +72,14 @@ export function DangerZone({
               onClick={(e) => e.stopPropagation()}
             >
               <div className="mb-4 flex items-center gap-3">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-red-500/15 text-red-400">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-danger/15 text-danger">
                   <AlertTriangle size={20} />
                 </div>
-                <h3 id="delete-account-title" className="text-base font-semibold text-white">
+                <h3 id="delete-account-title" className="text-base font-semibold text-settings-text-primary">
                   Delete your account?
                 </h3>
               </div>
-              <p className="mb-6 text-sm text-white/60">
+              <p className="mb-6 text-sm text-settings-text-secondary">
                 This will permanently delete your account, groups you own, and all messages. This
                 action cannot be undone.
               </p>

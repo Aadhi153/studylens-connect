@@ -86,17 +86,17 @@ export function ActiveSessionsList({
                 className="settings-connected-row"
               >
                 <div className="flex items-center gap-3">
-                  <span className="text-white/50">
+                  <span className="text-settings-text-secondary">
                     <Icon size={18} />
                   </span>
                   <div>
-                    <p className="flex flex-wrap items-center gap-2 text-sm text-white">
+                    <p className="flex flex-wrap items-center gap-2 text-sm text-settings-text-primary">
                       {session.device}
                       {session.isCurrent && (
                         <span className="settings-status-pill connected">This device</span>
                       )}
                     </p>
-                    <p className="text-xs text-white/50">
+                    <p className="text-xs text-settings-text-secondary">
                       {session.location} · {session.lastActive}
                     </p>
                   </div>
