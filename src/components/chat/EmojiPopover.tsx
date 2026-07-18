@@ -30,7 +30,7 @@ export function EmojiPopover({ onSelect }: { onSelect: (emoji: string) => void }
         aria-haspopup="menu"
         aria-expanded={open}
         aria-label="Insert emoji"
-        className="rounded-lg p-2 text-app-text-secondary transition hover:bg-white/5 hover:text-app-text-primary"
+        className="rounded-lg p-2 text-app-text-secondary transition hover:bg-hover-overlay hover:text-app-text-primary"
       >
         <Smile size={18} />
       </button>
@@ -48,7 +48,7 @@ export function EmojiPopover({ onSelect }: { onSelect: (emoji: string) => void }
                 onSelect(emoji);
                 setOpen(false);
               }}
-              className="flex h-8 w-8 items-center justify-center rounded-lg text-base transition hover:bg-white/5"
+              className="flex h-8 w-8 items-center justify-center rounded-lg text-base transition hover:bg-hover-overlay"
             >
               {emoji}
             </button>

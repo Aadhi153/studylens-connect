@@ -52,11 +52,11 @@ export function JoinGroupForm() {
         required
         value={inviteCode}
         onChange={(e) => setInviteCode(e.target.value)}
-        className="mb-6 w-full rounded-lg border border-white/10 bg-app-bg px-3 py-2 text-sm uppercase text-app-text-primary outline-none focus:border-app-accent"
+        className="mb-6 w-full rounded-lg border border-app-border bg-app-bg px-3 py-2 text-sm uppercase text-app-text-primary outline-none focus:border-app-accent"
         placeholder="e.g. a1b2c3d4"
       />
 
-      {error && <p className="mb-4 text-sm text-red-400">{error}</p>}
+      {error && <p className="mb-4 text-sm text-danger">{error}</p>}
 
       <button
         type="submit"

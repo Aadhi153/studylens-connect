@@ -46,7 +46,7 @@ export function NotificationsBell() {
         aria-haspopup="menu"
         aria-expanded={open}
         aria-label="Notifications"
-        className="relative flex h-10 w-10 items-center justify-center rounded-xl text-app-text-secondary transition hover:bg-white/5 hover:text-app-text-primary"
+        className="relative flex h-10 w-10 items-center justify-center rounded-xl text-app-text-secondary transition hover:bg-hover-overlay hover:text-app-text-primary"
       >
         <Bell size={20} />
         {MOCK_NOTIFICATIONS.length > 0 && (
@@ -69,7 +69,7 @@ export function NotificationsBell() {
               <div
                 key={n.id}
                 role="menuitem"
-                className="cursor-pointer rounded-lg px-2 py-2 transition hover:bg-white/5"
+                className="cursor-pointer rounded-lg px-2 py-2 transition hover:bg-hover-overlay"
               >
                 <div className="flex items-center justify-between gap-2">
                   <p className="text-sm font-medium text-app-text-primary">{n.title}</p>

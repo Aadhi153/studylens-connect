@@ -35,7 +35,7 @@ export function GroupRow({
     <Link
       href={`/groups/${group.id}`}
       className={`flex items-center gap-3 rounded-xl px-3 py-2.5 transition ${
-        active ? "bg-app-accent/15" : "hover:bg-white/5"
+        active ? "bg-app-active-bg" : "hover:bg-hover-overlay"
       }`}
     >
       <div

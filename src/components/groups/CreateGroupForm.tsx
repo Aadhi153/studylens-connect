@@ -73,11 +73,11 @@ export function CreateGroupForm() {
         required
         value={name}
         onChange={(e) => setName(e.target.value)}
-        className="mb-6 w-full rounded-lg border border-white/10 bg-app-bg px-3 py-2 text-sm text-app-text-primary outline-none focus:border-app-accent"
+        className="mb-6 w-full rounded-lg border border-app-border bg-app-bg px-3 py-2 text-sm text-app-text-primary outline-none focus:border-app-accent"
         placeholder="Org Chem Study Group"
       />
 
-      {error && <p className="mb-4 text-sm text-red-400">{error}</p>}
+      {error && <p className="mb-4 text-sm text-danger">{error}</p>}
 
       <button
         type="submit"

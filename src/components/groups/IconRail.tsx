@@ -27,7 +27,7 @@ function CreateButton() {
         aria-haspopup="menu"
         aria-expanded={open}
         aria-label="Create"
-        className="flex h-10 w-10 items-center justify-center rounded-xl text-app-text-secondary transition hover:bg-white/5 hover:text-app-text-primary"
+        className="flex h-10 w-10 items-center justify-center rounded-xl text-app-text-secondary transition hover:bg-hover-overlay hover:text-app-text-primary"
       >
         <Plus size={20} />
       </button>
@@ -41,7 +41,7 @@ function CreateButton() {
             href="/groups/new"
             role="menuitem"
             onClick={() => setOpen(false)}
-            className="flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm text-app-text-primary transition hover:bg-white/5"
+            className="flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm text-app-text-primary transition hover:bg-hover-overlay"
           >
             <Users size={16} className="text-app-text-secondary" />
             Create group
@@ -50,7 +50,7 @@ function CreateButton() {
             href="/groups?view=dms"
             role="menuitem"
             onClick={() => setOpen(false)}
-            className="flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm text-app-text-primary transition hover:bg-white/5"
+            className="flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm text-app-text-primary transition hover:bg-hover-overlay"
           >
             <UserPlus2 size={16} className="text-app-text-secondary" />
             New message
@@ -71,7 +71,7 @@ export function IconRail({ userEmail }: { userEmail: string }) {
     `flex h-10 w-10 items-center justify-center rounded-xl transition ${
       active
         ? "bg-app-accent text-white"
-        : "text-app-text-secondary hover:bg-white/5 hover:text-app-text-primary"
+        : "text-app-text-secondary hover:bg-hover-overlay hover:text-app-text-primary"
     }`;
 
   return (

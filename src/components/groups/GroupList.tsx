@@ -23,7 +23,7 @@ function GroupSubNav({ group, activeTab }: { group: GroupPreview; activeTab: str
       <div className="flex items-center gap-2 border-b border-app-border px-3 py-3">
         <Link
           href="/groups"
-          className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-app-text-secondary transition hover:bg-white/5 hover:text-app-text-primary"
+          className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-app-text-secondary transition hover:bg-hover-overlay hover:text-app-text-primary"
           aria-label="Back to groups"
         >
           <ArrowLeft size={16} />
@@ -40,8 +40,8 @@ function GroupSubNav({ group, activeTab }: { group: GroupPreview; activeTab: str
               href={`/groups/${group.id}?tab=${value}`}
               className={`flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm transition ${
                 active
-                  ? "bg-app-accent/15 text-app-text-primary"
-                  : "text-app-text-secondary hover:bg-white/5 hover:text-app-text-primary"
+                  ? "bg-app-active-bg text-app-text-primary"
+                  : "text-app-text-secondary hover:bg-hover-overlay hover:text-app-text-primary"
               }`}
             >
               <Icon size={16} />
@@ -74,7 +74,7 @@ function DmList({ filter }: { filter: string }) {
         <Link
           key={thread.id}
           href={`/groups?view=dms&dm=${thread.id}`}
-          className="flex items-center gap-3 rounded-xl px-3 py-2.5 transition hover:bg-white/5"
+          className="flex items-center gap-3 rounded-xl px-3 py-2.5 transition hover:bg-hover-overlay"
         >
           <div
             className={`relative flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-semibold text-white ${avatarColorFor(thread.id)}`}
@@ -133,7 +133,7 @@ export function GroupList({ groups }: { groups: GroupPreview[] }) {
   }
 
   return (
-    <div className="flex h-full w-[280px] shrink-0 flex-col border-r border-app-border bg-app-bg-elevated">
+    <div className="panel-divider-right flex h-full w-[280px] shrink-0 flex-col bg-app-bg-elevated">
       <div className="flex flex-col gap-3 p-3">
         <div className="relative">
           <Search
@@ -160,7 +160,7 @@ export function GroupList({ groups }: { groups: GroupPreview[] }) {
             </Link>
             <Link
               href="/groups/join"
-              className="flex flex-1 items-center justify-center gap-1.5 rounded-lg border border-app-border px-2 py-2 text-xs font-medium text-app-text-primary transition hover:bg-white/5"
+              className="flex flex-1 items-center justify-center gap-1.5 rounded-lg border border-app-border px-2 py-2 text-xs font-medium text-app-text-primary transition hover:bg-hover-overlay"
             >
               <KeyRound size={14} />
               Join with code
