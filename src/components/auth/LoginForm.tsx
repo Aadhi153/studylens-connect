@@ -91,8 +91,8 @@ export function LoginForm() {
       animate={controls}
       className="auth-form-card relative z-10 w-full"
     >
-      <h1 className="mb-2 text-2xl font-semibold text-white">Log in</h1>
-      <p className="mb-8 text-sm text-white/60">Welcome back to StudyLens Connect.</p>
+      <h1 className="mb-2 text-2xl font-semibold text-app-text-primary">Log in</h1>
+      <p className="mb-8 text-sm text-app-text-secondary">Welcome back to StudyLens Connect.</p>
 
       <div className="form-group">
         <label htmlFor="email" className="form-label">
@@ -127,7 +127,7 @@ export function LoginForm() {
             type="button"
             onClick={handleForgotPassword}
             disabled={resetSending}
-            className="text-xs font-medium text-[#93c5fd] transition hover:underline disabled:opacity-60"
+            className="text-xs font-medium text-accent-light transition hover:underline disabled:opacity-60"
           >
             {resetSending ? "Sending..." : "Forgot password?"}
           </button>
@@ -164,13 +164,13 @@ export function LoginForm() {
       </div>
 
       {resetMessage && (
-        <p role="status" className="mb-4 text-sm text-[#93c5fd]">
+        <p role="status" className="mb-4 text-sm text-accent-light">
           {resetMessage}
         </p>
       )}
 
       {error && (
-        <p role="alert" className="mb-4 text-sm text-red-400">
+        <p role="alert" className="mb-4 text-sm text-danger">
           {error}
         </p>
       )}
@@ -209,7 +209,7 @@ export function LoginForm() {
         </AnimatePresence>
       </button>
 
-      <p className="text-center text-sm text-white/60">
+      <p className="text-center text-sm text-app-text-secondary">
         Don&apos;t have an account?{" "}
         <Link href="/signup" className="auth-link">
           Sign up

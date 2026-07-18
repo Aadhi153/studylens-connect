@@ -80,8 +80,8 @@ export function SignupForm() {
 
   return (
     <form onSubmit={handleSubmit} className="auth-form-card relative z-10 w-full">
-      <h1 className="mb-2 text-2xl font-semibold text-white">Create an account</h1>
-      <p className="mb-8 text-sm text-white/60">Start studying together in minutes.</p>
+      <h1 className="mb-2 text-2xl font-semibold text-app-text-primary">Create an account</h1>
+      <p className="mb-8 text-sm text-app-text-secondary">Start studying together in minutes.</p>
 
       <div className="form-group">
         <label htmlFor="email" className="form-label">
@@ -156,12 +156,12 @@ export function SignupForm() {
       </div>
 
       {error && (
-        <p role="alert" className="mb-4 text-sm text-red-400">
+        <p role="alert" className="mb-4 text-sm text-danger">
           {error}
         </p>
       )}
       {info && (
-        <p role="status" className="mb-4 text-sm text-[#93c5fd]">
+        <p role="status" className="mb-4 text-sm text-accent-light">
           {info}
         </p>
       )}
@@ -174,7 +174,7 @@ export function SignupForm() {
         {loading ? <span className="spinner" aria-label="Loading" /> : "Sign up"}
       </button>
 
-      <p className="text-center text-sm text-white/60">
+      <p className="text-center text-sm text-app-text-secondary">
         Already have an account?{" "}
         <Link href="/login" className="auth-link">
           Log in

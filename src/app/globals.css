@@ -1,6 +1,28 @@
 @import "tailwindcss";
 
 :root {
+  /* ---- Theme-agnostic semantic tokens (dark values = default / fallback) ----
+     These are the single source of truth for both themes. Every area-prefixed
+     token below (--landing-*, --app-*, --settings-*) aliases one of these, so
+     switching [data-theme] on <html> re-themes the whole app without touching
+     component files. */
+  --bg-rail: #0f1729;
+  --bg-list: #141d33;
+  --bg-content: #1a2540;
+  --bg-active: rgba(33, 113, 181, 0.15);
+  --border: rgba(255, 255, 255, 0.1);
+  --input-bg: #0b1e3d;
+  --input-border: rgba(255, 255, 255, 0.1);
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.55);
+  --text-tertiary: rgba(255, 255, 255, 0.35);
+  --online: #22c55e;
+  --danger: #ef4444;
+  --hover-overlay: rgba(255, 255, 255, 0.05);
+  --accent: #3b82f6;
+  --accent-hover: #2563eb;
+  --accent-light: #93c5fd;
+
   /* Landing page only — gradient wash background */
   --landing-gradient: linear-gradient(
     180deg,
@@ -10,41 +32,65 @@
     #385d80 75%,
     #4f7699 100%
   );
-  --landing-cta-bg: #1e3a5f;
-  --landing-text-on-gradient: #ffffff;
-  --landing-text-secondary-on-gradient: rgba(255, 255, 255, 0.8);
+  --landing-cta-bg: var(--accent);
+  --landing-text-on-gradient: var(--text-primary);
+  --landing-text-secondary-on-gradient: var(--text-secondary);
+
+  /* Landing section rhythm (light theme only — dark keeps the gradient wash above,
+     so these all default to transparent/unchanged here and are only given real
+     values in the :root[data-theme="light"] override below). */
+  --navbar-bg: color-mix(in srgb, var(--input-bg) 85%, transparent);
+  --navbar-border: transparent;
+  --landing-hero-bg: transparent;
+  --landing-howitworks-bg: transparent;
+  --landing-features-bg: transparent;
+  --landing-cta-band-bg: transparent;
+  --landing-card-bg: var(--hover-overlay);
+  --landing-card-border: var(--app-border);
+  --landing-card-shadow: none;
+  --landing-card-hover-bg: var(--hover-overlay);
 
   /* App/chat pages — same navy/blue system as the landing page.
      Panel-level shade hierarchy (darkest -> lightest): rail < list/header/input < content. */
-  --app-bg: #0b1e3d;
-  --app-bg-elevated: #141d33;
-  --app-rail-bg: #0f1729;
-  --app-card-bg: #141d33;
-  --app-content-bg: #1a2540;
-  --app-border: rgba(255, 255, 255, 0.1);
+  --app-bg: var(--input-bg);
+  --app-bg-elevated: var(--bg-list);
+  --app-rail-bg: var(--bg-rail);
+  --app-card-bg: var(--bg-list);
+  --app-content-bg: var(--bg-content);
+  --app-border: var(--border);
+  /* Deliberately NOT aliased to --accent in dark mode: this app-wide nav/button
+     blue (#2171b5) was intentionally kept distinct from the bubble/settings
+     accent (#3b82f6) in a prior session. Light mode unifies them (see below). */
   --app-accent: #2171b5;
   --app-accent-hover: #375c8c;
+  --app-active-bg: var(--bg-active);
   --app-unread: #f59e0b;
-  --app-bubble-self: #3b82f6;
+  --app-bubble-self: var(--accent);
   --app-bubble-other: #2a2e38;
-  --app-text-primary: #ffffff;
-  --app-text-secondary: rgba(255, 255, 255, 0.55);
+  --app-text-primary: var(--text-primary);
+  --app-text-secondary: var(--text-secondary);
+  --app-text-tertiary: var(--text-tertiary);
+
+  /* Empty-state cards (e.g. "Select a group") */
+  --empty-card-bg: var(--hover-overlay);
+  --empty-card-border-color: var(--app-border);
+  --empty-card-border-style: dashed;
+  --empty-card-shadow: none;
+  --empty-icon-bg: color-mix(in srgb, var(--app-accent) 15%, transparent);
+  --empty-icon-color: var(--app-accent-hover);
 
   /* Settings page — same navy/blue gradient wash as the dashboard (see .settings-page-bg);
      nav + section cards are semi-transparent glass panels on top of it. */
-  --settings-panel-bg: rgba(20, 25, 35, 0.85);
-  --settings-card-bg: #1c1c1e;
-  --settings-border: rgba(255, 255, 255, 0.08);
-  --settings-accent: #3b82f6;
-  --settings-accent-hover: #2563eb;
-  --settings-text-primary: #ffffff;
-  --settings-text-secondary: rgba(255, 255, 255, 0.55);
+  --settings-panel-bg: var(--bg-list);
+  --settings-card-bg: var(--bg-content);
+  --settings-border: var(--border);
+  --settings-accent: var(--accent);
+  --settings-accent-hover: var(--accent-hover);
+  --settings-text-primary: var(--text-primary);
+  --settings-text-secondary: var(--text-secondary);
+  --settings-text-tertiary: var(--text-tertiary);
 
-  /* Semantic */
-  --online: #22c55e;
-  --danger: #ef4444;
-
-  /* Group avatar tints (landing page mockup only) */
+  /* Group avatar tints (landing page mockup only) — theme-invariant */
   --tint-1: #1e3a5f;
   --tint-2: #345c82;
   --tint-3: #4f7699;
@@ -53,7 +99,8 @@
   --tint-6: #274d73;
 
   /* Per-identity avatar palette — deterministically assigned by user/group id,
-     kept consistent across list rows, chat headers, and message bubbles. */
+     kept consistent across list rows, chat headers, and message bubbles, and
+     identical in both themes so people stay recognizable when switching. */
   --avatar-1: #3b82f6;
   --avatar-2: #14b8a6;
   --avatar-3: #8b5cf6;
@@ -61,7 +108,80 @@
   --avatar-5: #f43f5e;
 }
 
+:root[data-theme="light"] {
+  --bg-rail: #f8fffe;
+  --bg-list: #eff8f5;
+  --bg-content: #ffffff;
+  --bg-active: #d4ecdd;
+  --border: #e2ece8;
+  --input-bg: #ffffff;
+  --input-border: #dce9e5;
+  --text-primary: #152d35;
+  --text-secondary: #5b7a78;
+  /* User-specified tertiary hexes (#7A8F8C / #A3B5B2) are 3.42:1 / 2.14:1 against
+     #FFFFFF — both fail the required 4.5:1 AA for real text. Darkened within the
+     same hue family to ~4.6:1 so placeholder/disabled text stays compliant. */
+  --text-tertiary: #647976;
+  --online: #3f9463;
+  /* ~3.97:1 on white — below 4.5:1, but this is the user's literal specified hex
+     used mostly for small status/danger labels, not body copy; kept as given. */
+  --danger: #d9534f;
+  --hover-overlay: rgba(0, 0, 0, 0.05);
+  --accent: #345b63;
+  --accent-hover: #2a484f;
+  /* Original #7fd3c4 was only 1.75:1 on white, well under the 4.5:1 AA floor
+     for text links ("Forgot password?", "Sign up"). Darkened within the same
+     teal hue to ~4.9:1 while keeping it visibly lighter than --accent. */
+  --accent-light: #2b7d6f;
+
+  --landing-gradient: linear-gradient(180deg, #f8fffe 0%, #eff8f5 50%, #ffffff 100%);
+
+  /* Section rhythm: header white, hero very subtle mint, how-it-works one step
+     darker mint, features back to white, CTA band + footer a full-bleed dark
+     teal to close on a strong conversion moment. */
+  --navbar-bg: #ffffff;
+  --navbar-border: #e2ece8;
+  --landing-hero-bg: #f8fffe;
+  --landing-howitworks-bg: #eff8f5;
+  --landing-features-bg: #ffffff;
+  --landing-cta-band-bg: #152d35;
+  --landing-card-bg: #ffffff;
+  --landing-card-border: #e2ece8;
+  --landing-card-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  --landing-card-hover-bg: #ffffff;
+
+  /* Light mode unifies nav/button accent with the bubble/settings accent
+     (dark keeps them split — see the base :root comment above). */
+  --app-accent: var(--accent);
+  --app-accent-hover: var(--accent-hover);
+  /* Incoming bubbles get a visible border in light mode per spec. */
+  --app-bubble-other: var(--bg-list);
+
+  /* Empty-state cards: flat gray/dashed (dark) -> white teal-tinted card (light). */
+  --empty-card-bg: var(--app-content-bg);
+  --empty-card-border-color: var(--app-border);
+  --empty-card-border-style: solid;
+  --empty-card-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  --empty-icon-bg: color-mix(in srgb, var(--app-accent) 10%, transparent);
+  --empty-icon-color: var(--app-accent);
+}
+
 @theme inline {
+  --color-bg-rail: var(--bg-rail);
+  --color-bg-list: var(--bg-list);
+  --color-bg-content: var(--bg-content);
+  --color-bg-active: var(--bg-active);
+  --color-border: var(--border);
+  --color-input-bg: var(--input-bg);
+  --color-input-border: var(--input-border);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-tertiary: var(--text-tertiary);
+  --color-hover-overlay: var(--hover-overlay);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-light: var(--accent-light);
+
   --color-landing-cta: var(--landing-cta-bg);
   --color-landing-on-gradient: var(--landing-text-on-gradient);
   --color-landing-on-gradient-secondary: var(--landing-text-secondary-on-gradient);
@@ -74,11 +194,13 @@
   --color-app-border: var(--app-border);
   --color-app-accent: var(--app-accent);
   --color-app-accent-hover: var(--app-accent-hover);
+  --color-app-active-bg: var(--app-active-bg);
   --color-app-unread: var(--app-unread);
   --color-app-bubble-self: var(--app-bubble-self);
   --color-app-bubble-other: var(--app-bubble-other);
   --color-app-text-primary: var(--app-text-primary);
   --color-app-text-secondary: var(--app-text-secondary);
+  --color-app-text-tertiary: var(--app-text-tertiary);
 
   --color-settings-panel-bg: var(--settings-panel-bg);
   --color-settings-card: var(--settings-card-bg);
@@ -87,6 +209,7 @@
   --color-settings-accent-hover: var(--settings-accent-hover);
   --color-settings-text-primary: var(--settings-text-primary);
   --color-settings-text-secondary: var(--settings-text-secondary);
+  --color-settings-text-tertiary: var(--settings-text-tertiary);
 
   --color-online: var(--online);
   --color-danger: var(--danger);
@@ -129,9 +252,39 @@ body {
   position: sticky;
   top: 0;
   z-index: 50;
-  background: rgba(11, 30, 61, 0.85);
+  background: var(--navbar-bg);
+  border-bottom: 1px solid var(--navbar-border);
   -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
+}
+
+/* Full-width section bands for the landing page's alternating background rhythm.
+   Each wraps a max-w-6xl inner content div so the color spans edge-to-edge while
+   text/layout stay centered exactly as before. */
+.hero-band {
+  background: var(--landing-hero-bg);
+}
+
+.how-it-works-band {
+  background: var(--landing-howitworks-bg);
+}
+
+.features-band {
+  background: var(--landing-features-bg);
+}
+
+/* CTA band: wraps Demo, TechStrip and Footer as one continuous dark teal block.
+   Locally repoints the shared on-gradient text tokens and border token to light
+   values so every existing text-landing-on-gradient / border-app-border class
+   inside stays legible on the dark background with zero component changes. */
+.cta-band {
+  background: var(--landing-cta-band-bg);
+}
+
+:root[data-theme="light"] .cta-band {
+  --landing-text-on-gradient: #ffffff;
+  --landing-text-secondary-on-gradient: rgba(255, 255, 255, 0.75);
+  --border: rgba(255, 255, 255, 0.15);
 }
 
 /* Mobile hamburger toggle */
@@ -143,8 +296,8 @@ body {
 }
 
 .hamburger-btn:hover {
-  background-color: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.4);
+  background-color: var(--hover-overlay);
+  border-color: var(--border);
 }
 
 .hamburger {
@@ -215,7 +368,7 @@ body {
 
 .section-divider {
   height: 1px;
-  background: rgba(255, 255, 255, 0.12);
+  background: var(--border);
   width: 100%;
   margin: 0;
 }
@@ -231,14 +384,14 @@ body {
 
 .btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(33, 113, 181, 0.35);
-  background-color: #2171b5;
+  box-shadow: 0 8px 20px color-mix(in srgb, var(--accent) 35%, transparent);
+  background-color: var(--accent);
 }
 
 .btn-secondary:hover {
   transform: translateY(-2px);
-  border-color: rgba(255, 255, 255, 0.4);
-  background-color: rgba(255, 255, 255, 0.05);
+  border-color: var(--border);
+  background-color: var(--hover-overlay);
 }
 
 /* Nav links */
@@ -249,7 +402,7 @@ body {
 }
 
 .nav-link:hover {
-  color: #ffffff;
+  color: var(--text-primary);
 }
 
 .nav-link::after {
@@ -259,7 +412,7 @@ body {
   left: 0;
   width: 0;
   height: 2px;
-  background: #6baed6;
+  background: var(--accent-light);
   transition: width 0.25s ease;
 }
 
@@ -270,6 +423,9 @@ body {
 /* Cards */
 .step-card,
 .feature-card {
+  background: var(--landing-card-bg);
+  border: 1px solid var(--landing-card-border);
+  box-shadow: var(--landing-card-shadow);
   transition:
     transform 0.25s ease,
     background-color 0.25s ease,
@@ -279,7 +435,7 @@ body {
 .step-card:hover,
 .feature-card:hover {
   transform: translateY(-4px);
-  background-color: rgba(255, 255, 255, 0.08);
+  background-color: var(--landing-card-hover-bg);
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
 }
 
@@ -398,8 +554,8 @@ body {
   background: linear-gradient(
     to bottom,
     transparent,
-    rgba(147, 197, 253, 0.4) 20%,
-    rgba(147, 197, 253, 0.4) 80%,
+    color-mix(in srgb, var(--accent-light) 40%, transparent) 20%,
+    color-mix(in srgb, var(--accent-light) 40%, transparent) 80%,
     transparent
   );
 }
@@ -408,7 +564,7 @@ body {
   position: absolute;
   width: 480px;
   height: 480px;
-  background: radial-gradient(circle, rgba(96, 165, 250, 0.25) 0%, transparent 70%);
+  background: radial-gradient(circle, color-mix(in srgb, var(--accent) 25%, transparent) 0%, transparent 70%);
   filter: blur(70px);
   bottom: -10%;
   right: -10%;
@@ -416,8 +572,8 @@ body {
 }
 
 .auth-form-card {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--bg-content);
+  border: 1px solid var(--border);
   border-radius: 16px;
   padding: 32px;
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
@@ -453,7 +609,7 @@ body {
   margin-bottom: 6px;
   font-size: 13px;
   font-weight: 500;
-  color: rgba(255, 255, 255, 0.65);
+  color: var(--text-secondary);
 }
 
 .form-label-row {
@@ -468,11 +624,11 @@ body {
 }
 
 .auth-input {
-  background: rgba(255, 255, 255, 0.07);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: var(--input-bg);
+  border: 1px solid var(--input-border);
   border-radius: 8px;
   padding: 12px 14px;
-  color: #ffffff;
+  color: var(--text-primary);
   font-size: 14px;
   transition:
     border-color 0.2s ease,
@@ -481,9 +637,9 @@ body {
 }
 
 .auth-input:focus {
-  border-color: #3b82f6;
-  background: rgba(255, 255, 255, 0.1);
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+  border-color: var(--accent);
+  background: var(--input-bg);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 15%, transparent);
   outline: none;
 }
 
@@ -492,36 +648,36 @@ body {
 }
 
 .auth-input::placeholder {
-  color: rgba(255, 255, 255, 0.35);
+  color: var(--text-tertiary);
 }
 
 .auth-input.error {
-  border-color: #ef4444;
+  border-color: var(--danger);
 }
 
 .auth-input:-webkit-autofill,
 .auth-input:-webkit-autofill:hover,
 .auth-input:-webkit-autofill:focus {
-  -webkit-text-fill-color: #ffffff;
-  -webkit-box-shadow: 0 0 0px 1000px #16233f inset;
-  box-shadow: 0 0 0px 1000px #16233f inset;
-  caret-color: #ffffff;
+  -webkit-text-fill-color: var(--text-primary);
+  -webkit-box-shadow: 0 0 0px 1000px var(--input-bg) inset;
+  box-shadow: 0 0 0px 1000px var(--input-bg) inset;
+  caret-color: var(--text-primary);
   transition: background-color 9999s ease-in-out 0s;
 }
 
 .error-text {
-  color: #ef4444;
+  color: var(--danger);
   font-size: 11px;
   margin-top: 4px;
 }
 
 .auth-submit-btn {
-  background: #3b82f6;
+  background: var(--accent);
   border-radius: 8px;
   padding: 13px;
   color: #ffffff;
   font-weight: 600;
-  box-shadow: 0 4px 14px rgba(59, 130, 246, 0.35);
+  box-shadow: 0 4px 14px color-mix(in srgb, var(--accent) 35%, transparent);
   transition:
     transform 0.15s ease,
     box-shadow 0.2s ease,
@@ -529,8 +685,8 @@ body {
 }
 
 .auth-submit-btn:hover {
-  background: #2563eb;
-  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5);
+  background: var(--accent-hover);
+  box-shadow: 0 6px 20px color-mix(in srgb, var(--accent) 50%, transparent);
 }
 
 .auth-submit-btn:active {
@@ -549,7 +705,7 @@ body {
   top: 50%;
   transform: translateY(-50%);
   display: flex;
-  color: rgba(255, 255, 255, 0.7);
+  color: var(--text-secondary);
   cursor: pointer;
   transition: color 0.2s ease;
   background: none;
@@ -559,9 +715,10 @@ body {
 }
 
 .password-toggle:hover {
-  color: #6baed6;
+  color: var(--accent-light);
 }
 
+/* Sits on the always-accent-colored submit button in both themes, so stays literal white. */
 .spinner {
   width: 16px;
   height: 16px;
@@ -580,7 +737,7 @@ body {
 .strength-bar {
   height: 4px;
   border-radius: 2px;
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--border);
   margin-top: 8px;
   overflow: hidden;
 }
@@ -594,7 +751,7 @@ body {
 }
 
 .auth-link {
-  color: #93c5fd;
+  color: var(--accent-light);
   font-weight: 500;
   text-decoration: none;
   transition: color 0.2s ease;
@@ -605,13 +762,13 @@ body {
 }
 
 .back-link {
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--text-secondary);
   font-size: 13px;
   transition: color 0.2s ease;
 }
 
 .back-link:hover {
-  color: #ffffff;
+  color: var(--text-primary);
 }
 
 /* /groups and other authenticated app pages */
@@ -623,7 +780,7 @@ body {
 /* Hairline zone separator between icon rail / list panel / content area —
    reinforces the panel shade hierarchy without a harsh border. */
 .panel-divider-right {
-  border-right: 0.5px solid rgba(255, 255, 255, 0.06);
+  border-right: 0.5px solid var(--border);
 }
 
 /* /settings — same gradient wash as .groups-page-bg; nav/cards float on top
@@ -687,18 +844,18 @@ body {
    Tailwind utility classes. Reusing those names here would leak this full
    styling (background, padding, etc.) onto the landing page buttons. */
 .groups-btn-secondary {
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: var(--hover-overlay);
+  border: 1px solid var(--app-border);
   border-radius: 8px;
   padding: 10px 18px;
-  color: #ffffff;
+  color: var(--app-text-primary);
   font-size: 14px;
   font-weight: 500;
   transition: all 0.2s ease;
 }
 
 .groups-btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: color-mix(in srgb, var(--app-text-primary) 10%, transparent);
   transform: translateY(-1px);
 }
 
@@ -709,7 +866,7 @@ body {
   color: #ffffff;
   font-size: 14px;
   font-weight: 600;
-  box-shadow: 0 4px 14px rgba(33, 113, 181, 0.3);
+  box-shadow: 0 4px 14px color-mix(in srgb, var(--app-accent) 30%, transparent);
   transition:
     transform 0.2s ease,
     box-shadow 0.2s ease;
@@ -717,7 +874,7 @@ body {
 
 .groups-btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(33, 113, 181, 0.45);
+  box-shadow: 0 6px 20px color-mix(in srgb, var(--app-accent) 45%, transparent);
 }
 
 .empty-state {
@@ -727,40 +884,41 @@ body {
   justify-content: center;
   text-align: center;
   padding: 80px 24px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px dashed rgba(255, 255, 255, 0.15);
+  background: var(--empty-card-bg);
+  border: 1px var(--empty-card-border-style) var(--empty-card-border-color);
   border-radius: 16px;
   margin-top: 40px;
+  box-shadow: var(--empty-card-shadow);
 }
 
 .empty-state-icon {
   width: 56px;
   height: 56px;
   border-radius: 50%;
-  background: rgba(33, 113, 181, 0.15);
+  background: var(--empty-icon-bg);
   display: flex;
   align-items: center;
   justify-content: center;
   margin-bottom: 16px;
-  color: var(--app-accent-hover);
+  color: var(--empty-icon-color);
 }
 
 .empty-state-title {
-  color: #ffffff;
+  color: var(--app-text-primary);
   font-size: 18px;
   font-weight: 600;
   margin-bottom: 6px;
 }
 
 .empty-state-subtitle {
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--app-text-secondary);
   font-size: 14px;
   max-width: 340px;
 }
 
 .group-card {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--hover-overlay);
+  border: 1px solid var(--app-border);
   border-radius: 12px;
   padding: 20px;
   transition:
@@ -771,7 +929,7 @@ body {
 
 .group-card:hover {
   transform: translateY(-3px);
-  background: rgba(255, 255, 255, 0.08);
+  background: color-mix(in srgb, var(--app-text-primary) 8%, transparent);
 }
 
 .groups-container {
@@ -796,7 +954,7 @@ body {
 }
 
 .user-avatar:hover {
-  box-shadow: 0 0 0 3px rgba(33, 113, 181, 0.3);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--app-accent) 30%, transparent);
 }
 
 /* /settings page — same navy/blue gradient wash as the dashboard; nav and
@@ -816,7 +974,7 @@ body {
 }
 
 .settings-card:hover {
-  background: rgba(24, 30, 41, 0.9);
+  background: color-mix(in srgb, var(--settings-panel-bg) 90%, var(--text-primary) 10%);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
 }
 
@@ -825,7 +983,7 @@ body {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--settings-text-secondary);
 }
 
 /* Avatar + camera upload */
@@ -860,25 +1018,28 @@ body {
   border-radius: 50%;
   background: var(--settings-panel-bg);
   border: 2px solid var(--settings-panel-bg);
-  color: #ffffff;
+  color: var(--settings-accent);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
 }
 
 .settings-avatar-upload:hover {
   background: var(--settings-accent);
+  color: #ffffff;
 }
 
 /* Inputs */
 .settings-input {
-  background: rgba(255, 255, 255, 0.07);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: var(--input-bg);
+  border: 1px solid var(--input-border);
   border-radius: 8px;
   padding: 11px 14px;
-  color: #ffffff;
+  color: var(--settings-text-primary);
   font-size: 14px;
   width: 100%;
   transition:
@@ -889,17 +1050,17 @@ body {
 
 .settings-input:focus {
   border-color: var(--settings-accent);
-  background: rgba(255, 255, 255, 0.1);
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+  background: var(--input-bg);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--settings-accent) 20%, transparent);
   outline: none;
 }
 
 .settings-input::placeholder {
-  color: rgba(255, 255, 255, 0.35);
+  color: var(--settings-text-tertiary);
 }
 
 .settings-input[readonly] {
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--settings-text-secondary);
   cursor: not-allowed;
 }
 
@@ -916,7 +1077,7 @@ body {
   left: 12px;
   top: 50%;
   transform: translateY(-50%);
-  color: rgba(255, 255, 255, 0.4);
+  color: var(--settings-text-tertiary);
   pointer-events: none;
 }
 
@@ -924,7 +1085,7 @@ body {
   display: block;
   font-size: 12px;
   font-weight: 500;
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--settings-text-secondary);
   margin-bottom: 6px;
 }
 
@@ -947,7 +1108,7 @@ body {
   color: #ffffff;
   font-size: 14px;
   font-weight: 600;
-  box-shadow: 0 4px 14px rgba(59, 130, 246, 0.3);
+  box-shadow: 0 4px 14px color-mix(in srgb, var(--settings-accent) 30%, transparent);
   transition:
     transform 0.2s ease,
     box-shadow 0.2s ease,
@@ -957,7 +1118,7 @@ body {
 .settings-btn-primary:hover {
   background: var(--settings-accent-hover);
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.45);
+  box-shadow: 0 6px 20px color-mix(in srgb, var(--settings-accent) 45%, transparent);
 }
 
 .settings-btn-primary:active {
@@ -972,18 +1133,18 @@ body {
 }
 
 .settings-btn-secondary {
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: var(--hover-overlay);
+  border: 1px solid var(--settings-border);
   border-radius: 8px;
   padding: 10px 18px;
-  color: #ffffff;
+  color: var(--settings-text-primary);
   font-size: 14px;
   font-weight: 500;
   transition: all 0.2s ease;
 }
 
 .settings-btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: color-mix(in srgb, var(--settings-text-primary) 10%, transparent);
   transform: translateY(-1px);
 }
 
@@ -994,6 +1155,12 @@ body {
   width: 44px;
   shrink: 0;
   border-radius: 999px;
+  background: color-mix(in srgb, var(--settings-text-primary) 15%, transparent);
+  transition: background-color 0.18s ease;
+}
+
+.settings-toggle.is-on {
+  background: var(--settings-accent);
 }
 
 .settings-toggle-knob {
@@ -1014,14 +1181,14 @@ body {
 }
 
 .settings-toggle-row + .settings-toggle-row {
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-top: 1px solid var(--settings-border);
 }
 
 /* Segmented control (theme selector) */
 .settings-segmented {
   display: inline-flex;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--hover-overlay);
+  border: 1px solid var(--settings-border);
   border-radius: 10px;
   padding: 4px;
   gap: 4px;
@@ -1035,14 +1202,14 @@ body {
   border-radius: 7px;
   font-size: 13px;
   font-weight: 500;
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--settings-text-secondary);
   transition:
     background-color 0.2s ease,
     color 0.2s ease;
 }
 
 .settings-segmented-option:hover {
-  color: #ffffff;
+  color: var(--settings-text-primary);
 }
 
 .settings-segmented-option.is-active {
@@ -1068,8 +1235,8 @@ body {
   align-items: center;
   justify-content: space-between;
   padding: 14px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--hover-overlay);
+  border: 1px solid var(--settings-border);
   border-radius: 10px;
 }
 
@@ -1084,19 +1251,19 @@ body {
 }
 
 .settings-status-pill.connected {
-  color: #22c55e;
-  background: rgba(34, 197, 94, 0.12);
+  color: var(--online);
+  background: color-mix(in srgb, var(--online) 12%, transparent);
 }
 
 .settings-status-pill.disconnected {
-  color: rgba(255, 255, 255, 0.5);
-  background: rgba(255, 255, 255, 0.06);
+  color: var(--settings-text-secondary);
+  background: var(--hover-overlay);
 }
 
 /* Danger zone */
 .settings-danger-card {
-  background: rgba(239, 68, 68, 0.05);
-  border: 1px solid rgba(239, 68, 68, 0.35);
+  background: color-mix(in srgb, var(--danger) 5%, transparent);
+  border: 1px solid color-mix(in srgb, var(--danger) 35%, transparent);
   border-radius: 16px;
   padding: 24px;
   transition:
@@ -1105,28 +1272,28 @@ body {
 }
 
 .settings-danger-card:hover {
-  background: rgba(239, 68, 68, 0.08);
-  box-shadow: 0 10px 30px rgba(239, 68, 68, 0.1);
+  background: color-mix(in srgb, var(--danger) 8%, transparent);
+  box-shadow: 0 10px 30px color-mix(in srgb, var(--danger) 10%, transparent);
 }
 
 .settings-btn-danger-outline {
   background: transparent;
-  border: 1px solid rgba(239, 68, 68, 0.5);
+  border: 1px solid color-mix(in srgb, var(--danger) 50%, transparent);
   border-radius: 8px;
   padding: 10px 18px;
-  color: #ef4444;
+  color: var(--danger);
   font-size: 14px;
   font-weight: 600;
   transition: all 0.2s ease;
 }
 
 .settings-btn-danger-outline:hover {
-  background: rgba(239, 68, 68, 0.1);
-  border-color: #ef4444;
+  background: color-mix(in srgb, var(--danger) 10%, transparent);
+  border-color: var(--danger);
 }
 
 .settings-btn-danger-solid {
-  background: #ef4444;
+  background: var(--danger);
   border-radius: 8px;
   padding: 10px 18px;
   color: #ffffff;
@@ -1139,9 +1306,9 @@ body {
 }
 
 .settings-btn-danger-solid:hover {
-  background: #dc2626;
+  background: color-mix(in srgb, var(--danger) 85%, black);
   transform: translateY(-1px);
-  box-shadow: 0 6px 18px rgba(239, 68, 68, 0.4);
+  box-shadow: 0 6px 18px color-mix(in srgb, var(--danger) 40%, transparent);
 }
 
 .settings-btn-danger-solid:disabled {
@@ -1167,7 +1334,7 @@ body {
 
 .settings-modal {
   background: var(--settings-card-bg);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--settings-border);
   border-radius: 16px;
   padding: 28px;
   max-width: 380px;
@@ -1185,18 +1352,18 @@ body {
   align-items: center;
   gap: 8px;
   background: var(--settings-card-bg);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border: 1px solid var(--settings-border);
   border-radius: 10px;
   padding: 12px 18px;
   font-size: 14px;
-  color: #ffffff;
+  color: var(--settings-text-primary);
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
   z-index: 300;
   animation: settingsToastIn 0.3s ease-out;
 }
 
 .settings-toast.error {
-  border-color: rgba(239, 68, 68, 0.4);
+  border-color: color-mix(in srgb, var(--danger) 40%, transparent);
 }
 
 @keyframes settingsToastIn {
