@@ -18,10 +18,10 @@ export function Toggle({
   return (
     <div className="settings-toggle-row">
       <div className="flex items-start gap-3">
-        {icon && <span className="mt-0.5 text-white/50">{icon}</span>}
+        {icon && <span className="mt-0.5 text-settings-text-secondary">{icon}</span>}
         <div>
-          <p className="text-sm text-white">{label}</p>
-          {description && <p className="text-xs text-white/50">{description}</p>}
+          <p className="text-sm text-settings-text-primary">{label}</p>
+          {description && <p className="text-xs text-settings-text-secondary">{description}</p>}
         </div>
       </div>
       <motion.button
@@ -31,9 +31,7 @@ export function Toggle({
         aria-label={label}
         onClick={() => onChange(!checked)}
         whileTap={{ scale: 0.95 }}
-        animate={{ backgroundColor: checked ? "#3b82f6" : "rgba(255,255,255,0.15)" }}
-        transition={{ duration: 0.18, ease: "easeOut" }}
-        className="settings-toggle relative shrink-0"
+        className={`settings-toggle relative shrink-0 ${checked ? "is-on" : ""}`}
       >
         <motion.span
           className="settings-toggle-knob"

@@ -17,9 +17,9 @@ export function Toast({ toast, onDismiss }: { toast: ToastState; onDismiss: () =
   return (
     <div role="status" className={`settings-toast ${toast.type === "error" ? "error" : ""}`}>
       {toast.type === "success" ? (
-        <CheckCircle2 size={16} className="text-[#22c55e]" />
+        <CheckCircle2 size={16} className="text-online" />
       ) : (
-        <XCircle size={16} className="text-red-400" />
+        <XCircle size={16} className="text-danger" />
       )}
       {toast.message}
     </div>

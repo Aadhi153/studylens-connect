@@ -21,24 +21,26 @@ export function Features() {
   return (
     <section
       id="features"
-      className="fade-in-section mx-auto w-full max-w-6xl scroll-mt-24 px-6 py-20"
+      className="features-band fade-in-section w-full scroll-mt-24"
     >
-      <h2 className="mb-12 text-center text-3xl font-semibold text-landing-on-gradient">
-        Features
-      </h2>
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        {features.map((feature) => (
-          <div key={feature.title} className="fade-in-item">
-            <div className="feature-card rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur">
-              <h3 className="mb-2 text-lg font-medium text-landing-on-gradient">
-                {feature.title}
-              </h3>
-              <p className="text-sm text-landing-on-gradient-secondary">
-                {feature.description}
-              </p>
+      <div className="mx-auto w-full max-w-6xl px-6 py-20">
+        <h2 className="mb-12 text-center text-3xl font-semibold text-landing-on-gradient">
+          Features
+        </h2>
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {features.map((feature) => (
+            <div key={feature.title} className="fade-in-item">
+              <div className="feature-card rounded-2xl p-6">
+                <h3 className="mb-2 text-lg font-medium text-landing-on-gradient">
+                  {feature.title}
+                </h3>
+                <p className="text-sm text-landing-on-gradient-secondary">
+                  {feature.description}
+                </p>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </section>
   );

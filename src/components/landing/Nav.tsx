@@ -38,7 +38,7 @@ export function Nav() {
             onClick={() => setOpen((v) => !v)}
             aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
-            className="hamburger-btn flex h-9 w-9 items-center justify-center rounded-lg border border-white/20 md:hidden"
+            className="hamburger-btn flex h-9 w-9 items-center justify-center rounded-lg border border-app-border md:hidden"
           >
             <span className="sr-only">{open ? "Close menu" : "Open menu"}</span>
             <span className={`hamburger ${open ? "is-open" : ""}`} aria-hidden="true">
@@ -51,7 +51,7 @@ export function Nav() {
       </nav>
       <div className={`mobile-menu md:hidden ${open ? "is-open" : ""}`}>
         <div className="mobile-menu-inner">
-          <div className="mx-auto flex w-full max-w-6xl flex-col gap-4 border-t border-white/10 px-6 py-4 text-sm text-landing-on-gradient-secondary">
+          <div className="mx-auto flex w-full max-w-6xl flex-col gap-4 border-t border-app-border px-6 py-4 text-sm text-landing-on-gradient-secondary">
             {links.map((link) => (
               <Link
                 key={link.href}

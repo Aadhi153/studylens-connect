@@ -2,8 +2,8 @@ import Link from "next/link";
 
 export function Footer() {
   return (
-    <footer className="fade-in-section mx-auto w-full max-w-6xl border-t border-white/10 px-6 py-8">
-      <div className="flex flex-col items-center justify-between gap-4 text-sm text-landing-on-gradient-secondary md:flex-row">
+    <footer className="cta-band fade-in-section w-full">
+      <div className="mx-auto flex w-full max-w-6xl flex-col items-center justify-between gap-4 border-t border-app-border px-6 py-8 text-sm text-landing-on-gradient-secondary md:flex-row">
         <p>Built by Aadhi Piranav</p>
         <div className="flex gap-6">
           <Link href="https://github.com" className="hover:text-landing-on-gradient">

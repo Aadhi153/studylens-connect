@@ -63,7 +63,7 @@ export function UserMenu({
             href="/settings"
             role="menuitem"
             onClick={() => setOpen(false)}
-            className="flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm text-app-text-primary transition hover:bg-white/5"
+            className="flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm text-app-text-primary transition hover:bg-hover-overlay"
           >
             <Settings size={16} />
             Settings
