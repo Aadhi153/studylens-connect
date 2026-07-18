@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowLeft } from "lucide-react";
@@ -13,8 +13,9 @@ import { DangerZone } from "@/components/settings/DangerZone";
 import { Toast, type ToastState } from "@/components/settings/Toast";
 import { SettingsFooter } from "@/components/settings/SettingsFooter";
 import type { ProfileStats } from "@/lib/profileStats";
+import { applyTheme, getStoredTheme, type Theme } from "@/lib/theme";
 
-export type Theme = "dark" | "light" | "system";
+export type { Theme };
 export type SettingsSection = "profile" | "account" | "preferences" | "appearance" | "danger";
 
 const SECTION_LABELS: Record<SettingsSection, string> = {
@@ -67,6 +68,22 @@ export function SettingsSections({
   const [theme, setTheme] = useState<Theme>("dark");
   const [language, setLanguage] = useState("en");
 
+  // The FOUC-prevention script in layout.tsx already applied the persisted theme
+  // to the DOM before hydration; sync this component's state to match so the
+  // Appearance toggle reflects the real stored preference. Reading localStorage
+  // has to happen post-mount (it doesn't exist during SSR), so this one-time sync
+  // from an external system can't be done via a lazy useState initializer without
+  // risking a hydration mismatch.
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setTheme(getStoredTheme());
+  }, []);
+
+  function handleThemeChange(next: Theme) {
+    setTheme(next);
+    applyTheme(next);
+  }
+
   function showToast(message: string, type: "success" | "error") {
     setToast({ message, type });
   }
@@ -95,7 +112,7 @@ export function SettingsSections({
             type="button"
             onClick={() => setMobileShowContent(false)}
             aria-label="Back to settings menu"
-            className="flex h-8 w-8 items-center justify-center rounded-lg text-settings-text-secondary hover:bg-white/5"
+            className="flex h-8 w-8 items-center justify-center rounded-lg text-settings-text-secondary hover:bg-hover-overlay"
           >
             <ArrowLeft size={18} />
           </button>
@@ -151,7 +168,7 @@ export function SettingsSections({
                 {activeSection === "appearance" && (
                   <AppearanceSection
                     theme={theme}
-                    onThemeChange={setTheme}
+                    onThemeChange={handleThemeChange}
                     language={language}
                     onLanguageChange={setLanguage}
                   />

@@ -54,7 +54,7 @@ export function SettingsNav({
                 className={`relative flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-left text-sm font-medium transition-colors duration-150 ${
                   isActive
                     ? "text-white"
-                    : "text-settings-text-secondary hover:bg-white/5 hover:text-settings-text-primary"
+                    : "text-settings-text-secondary hover:bg-hover-overlay hover:text-settings-text-primary"
                 }`}
               >
                 {isActive && (
@@ -82,14 +82,14 @@ export function SettingsNav({
             whileTap={{ scale: 0.98 }}
             className={`relative flex w-full items-center gap-2.5 rounded-lg px-3 py-2.5 text-left text-sm font-medium transition-colors duration-150 ${
               active === "danger"
-                ? "text-red-400"
-                : "text-red-400/70 hover:bg-red-500/10 hover:text-red-400"
+                ? "text-danger"
+                : "text-danger/70 hover:bg-danger/10 hover:text-danger"
             }`}
           >
             {active === "danger" && (
               <motion.div
                 layoutId="activeNavPill"
-                className="absolute inset-0 rounded-lg bg-red-500/15 transition-colors duration-300"
+                className="absolute inset-0 rounded-lg bg-danger/15 transition-colors duration-300"
                 style={{ zIndex: 0 }}
                 transition={{ type: "spring", stiffness: 300, damping: 30 }}
               />
